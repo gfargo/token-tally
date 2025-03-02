@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
 import { getAllModels } from "@/lib/models";
+import { getCalculatorUrl } from "@/utils/providerUtils";
 import {
   Calculator,
   CommandIcon,
@@ -72,7 +73,7 @@ export function CommandMenu() {
             inputCost,
             outputCost,
             totalCost: inputCost + outputCost,
-            href: `/calculators/${model.provider.toLowerCase()}`,
+            href: getCalculatorUrl(model.provider),
           };
         });
         setCalculatedCosts(costs);
