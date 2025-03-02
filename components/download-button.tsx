@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Download, FileJson, Database, HardDrive } from "lucide-react"
+import { FeedbackModal } from "@/components/feedback-modal"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { getAllModels } from "@/config/pricing"
-import { FeedbackModal } from "@/components/feedback-modal"
+import { getAllModels } from '@/lib/models'
+import { Database, Download, FileJson, HardDrive } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function DownloadButton() {
   const [isModalOpen, setIsModalOpen] = useState(false)

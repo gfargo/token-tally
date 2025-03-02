@@ -11,8 +11,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
-import { getAllModels } from "@/config/pricing";
 import { useDebounce } from "@/hooks/use-debounce";
+import { getAllModels } from '@/lib/models';
 import {
   Calculator,
   CommandIcon,
