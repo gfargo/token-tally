@@ -1,101 +1,164 @@
-import Image from "next/image";
+"use client"
+
+import GlobalPricingTable from "@/components/global-pricing-table"
+import { Badge } from "@/components/ui/badge"
+import { motion } from "framer-motion"
+import {
+  Calculator,
+  Command,
+  Download,
+  Image,
+  Maximize2,
+  MessageSquare,
+  MicIcon,
+  RefreshCw,
+  Search,
+  Table,
+} from "lucide-react"
+import Link from "next/link"
+import type React from "react"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="container mx-auto px-4 py-8 max-w-6xl relative">
+      <div className="mb-12 text-center">
+        <h1 className="text-4xl font-bold mb-4"><span className="sr-only">TokenTally:</span> An All-in-One AI Cost Calculator</h1>
+        <p className="text-xl text-muted-foreground mb-6">
+          Estimate costs for various AI models and make informed decisions for your projects.
+        </p>
+        <div className="flex justify-center items-center space-x-4 mb-6">
+          <span className="inline-flex items-center">
+            <Calculator className="w-5 h-5 mr-2" />
+            Multiple calculators
+          </span>
+          <span className="inline-flex items-center">
+            <Command className="w-5 h-5 mr-2" />
+            Quick calculations (Cmd+K)
+          </span>
+          <span className="inline-flex items-center">
+            <Table className="w-5 h-5 mr-2" />
+            Comprehensive pricing tables
+          </span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <p className="text-sm text-muted-foreground">
+          Access detailed model information and download complete datasets.
+          <Link href="/models" className="underline ml-1">
+            View all models
+          </Link>{" "}
+          or use the
+          <Link href="#" className="underline mx-1">
+            download button
+          </Link>
+          <Download className="w-4 h-4 inline-block ml-1" /> in the header.
+        </p>
+      </div>
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ staggerChildren: 5 }}
+      >
+        <CalculatorCard
+          title="OpenAI GPT"
+          description="Calculate costs for GPT-4.5, O1, O3-mini, GPT-4o, and other models."
+          icon={<MessageSquare className="h-5 w-5" />}
+          href="/calculators/openai"
+        />
+        <CalculatorCard
+          title="Claude"
+          description="Calculate costs for Claude 3 Opus, Sonnet, and Haiku models."
+          icon={<MessageSquare className="h-5 w-5" />}
+          href="/calculators/claude"
+        />
+        <CalculatorCard
+          title="Gemini"
+          description="Calculate costs for Google's Gemini models and features."
+          icon={<MessageSquare className="h-5 w-5" />}
+          href="/calculators/gemini"
+        />
+        <CalculatorCard
+          title="DALL-E"
+          description="Calculate image generation costs for DALL-E 2 and DALL-E 3."
+          icon={<Image className="h-5 w-5" />}
+          href="/calculators/dalle"
+        />
+        <CalculatorCard
+          title="Whisper & TTS"
+          description="Calculate costs for audio transcription and text-to-speech."
+          icon={<MicIcon className="h-5 w-5" />}
+          href="/calculators/audio"
+        />
+        <CalculatorCard
+          title="Embedding"
+          description="Calculate costs for different OpenAI embedding models."
+          icon={<Search className="h-5 w-5" />}
+          href="/calculators/embedding"
+        />
+        <CalculatorCard
+          title="Cohere"
+          description="Calculate costs for Command, Embed, and Rerank models."
+          icon={<MessageSquare className="h-5 w-5" />}
+          href="/calculators/cohere"
+        />
+        <CalculatorCard
+          title="Perplexity.ai"
+          description="Calculate costs for Sonar and R1-1776 models."
+          icon={<Search className="h-5 w-5" />}
+          href="/calculators/perplexity"
+        />
+        <CalculatorCard
+          title="Always Up-to-Date"
+          description="Our pricing information is constantly updated. Share your feedback and help improve TokenTally."
+          icon={<RefreshCw className="h-5 w-5" />}
+          href="/feedback"
+          isSpecial={true}
+        />
+      </motion.div>
+
+      <GlobalPricingTable />
     </div>
-  );
+  )
 }
+
+export function CalculatorCard({
+  title,
+  description,
+  icon,
+  href,
+  isSpecial = false,
+}: {
+  title: string
+  description: string
+  icon: React.ReactNode
+  href: string
+  isSpecial?: boolean
+}) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
+      <Link href={href} className="group">
+        <div
+          className={`border rounded-lg p-6 h-full hover:shadow-md transition-all duration-200 hover:border-primary/50 flex flex-col ${isSpecial ? "bg-gradient-to-br from-primary/10 to-secondary/10" : ""}`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className={`rounded-full p-2 ${isSpecial ? "bg-primary/20" : "bg-primary/10"}`}>{icon}</div>
+            {isSpecial ? (
+              <Badge variant="outline" className="bg-primary/20 text-primary-foreground">
+                New
+              </Badge>
+            ) : (
+              <Maximize2 className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+            )}
+          </div>
+          <h2 className="text-xl font-semibold mb-2">{title}</h2>
+          <p className="text-muted-foreground text-sm flex-grow">{description}</p>
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
