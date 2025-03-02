@@ -39,7 +39,21 @@ const getModelIcon = (category: string) => {
   }
 };
 
-export const ModelCard = ({ model }: { model: any }) => (
+interface ModelData {
+  model: string;
+  provider: string;
+  category: string;
+  inputCost: number | string;
+  outputCost: number | string;
+  contextWindow?: number;
+  fineTuning?: {
+    input: number;
+    output: number;
+    training: number;
+  };
+}
+
+export const ModelCard = ({ model }: { model: ModelData }) => (
   <Card className="flex flex-col h-full">
     <CardHeader>
       <div className="flex items-center justify-between">

@@ -79,6 +79,7 @@ export default function Home() {
         <CalculatorCard
           title="DALL-E"
           description="Calculate image generation costs for DALL-E 2 and DALL-E 3."
+          // eslint-disable-next-line jsx-a11y/alt-text -- Icon is decorative not an actual "Image" tag
           icon={<Image className="h-5 w-5" />}
           href="/calculators/dalle"
         />

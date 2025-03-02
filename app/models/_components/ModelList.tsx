@@ -28,12 +28,28 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ModelCard } from "./ModelCard";
 
+interface Model {
+  model: string;
+  provider: string;
+  category: string;
+  price: number;
+  unit: string;
+  context?: number;
+}
+
+interface ModelsData {
+  textModels: Model[];
+  imageModels: Model[];
+  embeddingModels: Model[];
+  audioModels: Model[];
+}
+
 export const ModelList = ({
   allModels,
   providers,
 }: {
-  allModels: any;
-  providers: any;
+  allModels: ModelsData;
+  providers: string[];
 }) => {
   const [selectedProvider, setSelectedProvider] = useState("All");
 

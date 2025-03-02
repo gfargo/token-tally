@@ -420,7 +420,7 @@ export default function ClaudeCalculator() {
             <CardHeader>
               <CardTitle>Claude Model Pricing</CardTitle>
               <CardDescription>
-                Current pricing for Anthropic's Claude API models (per million
+                Current pricing for Anthropic&apos;s Claude API models (per million
                 tokens)
               </CardDescription>
             </CardHeader>

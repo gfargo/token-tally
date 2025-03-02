@@ -240,7 +240,7 @@ export default function DalleCalculator() {
             <CardHeader>
               <CardTitle>DALL-E Pricing</CardTitle>
               <CardDescription>
-                Current pricing for OpenAI's DALL-E image generation models
+                Current pricing for OpenAI&apos;s DALL-E image generation models
               </CardDescription>
             </CardHeader>
             <CardContent>

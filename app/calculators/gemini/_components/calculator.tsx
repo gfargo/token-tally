@@ -255,7 +255,7 @@ export default function GeminiCalculator() {
                           ].input.toFixed(3)
                         : (
                             geminiPricing[model as keyof typeof geminiPricing]
-                              .input as any
+                              .input as Record<string, number>
                           )[
                             inputType === "text" ? inputType : promptSize
                           ].toFixed(3)}{" "}
@@ -273,7 +273,7 @@ export default function GeminiCalculator() {
                           ].output.toFixed(3)
                         : (
                             geminiPricing[model as keyof typeof geminiPricing]
-                              .output as any
+                              .output as Record<string, number>
                           )[promptSize].toFixed(3)}{" "}
                       / 1M tokens
                     </div>
@@ -474,7 +474,7 @@ export default function GeminiCalculator() {
                             : (
                                 geminiPricing[
                                   model as keyof typeof geminiPricing
-                                ].input as any
+                                ].input as Record<string, number>
                               )[
                                 inputType === "text" ? inputType : promptSize
                               ])) /
@@ -498,7 +498,7 @@ export default function GeminiCalculator() {
                             : (
                                 geminiPricing[
                                   model as keyof typeof geminiPricing
-                                ].output as any
+                                ].output as Record<string, number>
                               )[promptSize])) /
                         1_000_000
                       ).toFixed(6)}
@@ -548,8 +548,8 @@ export default function GeminiCalculator() {
                                 model as keyof typeof geminiPricing
                               ].groundingSearch?.freeRequests || 0)
                           ) *
-                            (geminiPricing[model as keyof typeof geminiPricing]
-                              .groundingSearch?.price || 0)) /
+                            Number(geminiPricing[model as keyof typeof geminiPricing]
+                              .groundingSearch?.price ?? 0)) /
                           1000
                         ).toFixed(6)}
                       </div>
@@ -575,7 +575,7 @@ export default function GeminiCalculator() {
             <CardHeader>
               <CardTitle>Gemini Model Pricing</CardTitle>
               <CardDescription>
-                Current pricing for Google's Gemini API models (per million
+                Current pricing for Google&apos;s Gemini API models (per million
                 tokens)
               </CardDescription>
             </CardHeader>

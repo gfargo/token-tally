@@ -49,12 +49,12 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         <DialogHeader>
           <DialogTitle>Thank you for using TokenTally!</DialogTitle>
           <DialogDescription>
-            We hope the data you've downloaded will be useful for your project.
+            We hope the data you&apos;ve downloaded will be useful for your project.
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
           <p className="text-sm text-muted-foreground">
-            We'd love to hear about what you're building or how you plan to use
+            We&apos;d love to hear about what you&apos;re building or how you plan to use
             this data. Your feedback helps us improve and expand our services.
           </p>
           <div className="flex flex-wrap flex-col gap-2">

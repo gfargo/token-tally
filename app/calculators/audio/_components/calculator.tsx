@@ -202,7 +202,7 @@ export default function AudioCalculator() {
             <CardHeader>
               <CardTitle>Audio Models Pricing</CardTitle>
               <CardDescription>
-                Current pricing for OpenAI's audio processing models
+                Current pricing for OpenAI&apos;s audio processing models
               </CardDescription>
             </CardHeader>
             <CardContent>
