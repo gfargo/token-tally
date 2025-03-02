@@ -39,13 +39,18 @@ const getModelIcon = (category: string) => {
   }
 };
 
-interface ModelData {
+export interface ModelData {
   model: string;
   provider: string;
   category: string;
   inputCost: number | string;
   outputCost: number | string;
   contextWindow?: number;
+  
+  price?: number;
+  unit?: string;
+  context?: string;
+  
   fineTuning?: {
     input: number;
     output: number;

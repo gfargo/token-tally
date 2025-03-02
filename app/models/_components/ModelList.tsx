@@ -26,22 +26,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ModelCard } from "./ModelCard";
-
-interface Model {
-  model: string;
-  provider: string;
-  category: string;
-  price: number;
-  unit: string;
-  context?: number;
-}
+import { ModelCard, ModelData } from "./ModelCard";
 
 interface ModelsData {
-  textModels: Model[];
-  imageModels: Model[];
-  embeddingModels: Model[];
-  audioModels: Model[];
+  textModels: ModelData[];
+  imageModels: ModelData[];
+  embeddingModels: ModelData[];
+  audioModels: ModelData[];
 }
 
 export const ModelList = ({
@@ -145,7 +136,7 @@ export const ModelList = ({
                     <div className="flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-muted-foreground" />
                       <span className="font-medium">
-                        Price: ${model.price.toFixed(4)} {model.unit}
+                        Price: ${(model?.price || 0).toFixed(4)} {model.unit}
                       </span>
                     </div>
                   </CardContent>
@@ -189,7 +180,7 @@ export const ModelList = ({
                       <div className="flex items-center gap-2">
                         <DollarSign className="h-4 w-4 text-muted-foreground" />
                         <span className="font-medium">
-                          Price: ${model.price.toFixed(4)} {model.unit}
+                          Price: ${(model?.price || 0).toFixed(4)} {model.unit}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -239,7 +230,7 @@ export const ModelList = ({
                     <div className="flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-muted-foreground" />
                       <span className="font-medium">
-                        Price: ${model.price.toFixed(4)} {model.unit}
+                        Price: ${(model?.price || 0).toFixed(4)} {model.unit}
                       </span>
                     </div>
                   </CardContent>

@@ -1,39 +1,10 @@
 # TokenTally: All-in-One AI Cost Calculator
 
-[TokenTally](https://tokentalley.griffen.codes/) is an open source web application designed to empower developers, researchers, and businesses to estimate and compare costs across various AI and Large Language Model (LLM) APIs. In today’s rapidly evolving AI landscape, TokenTally provides a real-time, user-friendly interface to help you make informed decisions when integrating services like OpenAI, Claude, Gemini, DALL-E, Whisper, Cohere, and Perplexity.ai into your projects.
-
----
-
-## Table of Contents
-
-- [TokenTally: All-in-One AI Cost Calculator](#tokentally-all-in-one-ai-cost-calculator)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Features](#features)
-  - [Project Structure \& Significant Files](#project-structure--significant-files)
-  - [Installation \& Usage](#installation--usage)
-  - [Contributing](#contributing)
-  - [Acknowledgements](#acknowledgements)
-  - [Project Stats](#project-stats)
-  - [License](#license)
-
----
-
-## Overview
-
-TokenTally simplifies the process of calculating and comparing AI service costs with:
-
-- **Interactive Calculators:** Input token counts to receive an instant cost breakdown.
-- **Up-to-date Pricing Tables:** Access current pricing information for all supported models.
-- **Visual Comparisons:** Use charts and graphs to visually compare expenses across providers.
-
-This tool is tailored for anyone looking to integrate AI APIs effectively, ensuring you have the clarity needed to optimize your technology investments.
-
----
+[TokenTally](https://tokentalley.griffen.codes/) is an open source web application designed to empower developers, researchers, and businesses to estimate and compare costs across various AI and Large Language Model (LLM) APIs. In today’s rapidly evolving AI landscape, TokenTally provides a real-time, user-friendly interface to help you make informed decisions when integrating services like [OpenAI](https://www.openai.com/), [Claude](https://www.anthropic.com/), [Gemini](https://www.google.com/), [DALL-E](https://www.openai.com/dall-e-2), [Whisper](https://www.openai.com/research/whisper), [Cohere](https://cohere.ai/), and [Perplexity.ai](https://www.perplexity.ai/) into your projects.
 
 ## Features
 
-- **Multiple Model Support:** Calculate costs for models such as OpenAI, Claude, Gemini, DALL-E, Whisper, Cohere, and Perplexity.ai.
+- **Multiple Model Support:** Calculate costs for models such as [OpenAI](https://www.openai.com/), [Claude](https://www.anthropic.com/), [Gemini](https://www.google.com/), [DALL-E](https://www.openai.com/dall-e-2), [Whisper](https://www.openai.com/research/whisper), [Cohere](https://cohere.ai/), and [Perplexity.ai](https://www.perplexity.ai/).
 - **Interactive Calculators:** Easily input token counts and view detailed cost breakdowns.
 - **Comprehensive Pricing Tables:** Always up-to-date pricing details across supported AI models.
 - **Visual Comparisons:** Charts and graphs to compare costs across different services.
@@ -43,11 +14,9 @@ This tool is tailored for anyone looking to integrate AI APIs effectively, ensur
 - **Dynamic OG Images:** Automatically generated Open Graph images enhance social media sharing.
 - **Toast Notifications:** User-friendly notifications via Sonner for improved interactivity.
 
----
+## Project Structure Overview
 
-## Project Structure & Significant Files
-
-TokenTally follows a modern Next.js 15+ architecture using the App Router. Below is an overview of the project’s structure along with the most significant files:
+TokenTally follows a modern Next.js 15+ architecture using the App Router. Below is an breakdown of the project’s structure along with the most significant files:
 
 ```
 /app                  - Main application directory with pages and layout components (e.g., /app/page.tsx for the landing page)
@@ -156,13 +125,9 @@ TokenTally is powered by a collection of outstanding services and libraries:
 - **RepoBeats** – Provides insightful project analytics.
 - **ShadCN UI** – A set of modern UI components for rapid development.
 
----
-
 ## Project Stats
 
 ![Alt](https://repobeats.axiom.co/api/embed/55e9dbc9f7b635cb5756c35298d29da533cdc031.svg "Repobeats analytics image")
-
----
 
 ## License
 
