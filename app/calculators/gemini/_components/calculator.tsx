@@ -133,7 +133,7 @@ export default function GeminiCalculator() {
         "freeRequests" in pricing.groundingSearch
           ? pricing.groundingSearch.freeRequests
           : 0;
-      const paidRequests = Math.max(0, groundingRequests - freeRequests);
+      const paidRequests = Math.max(0, groundingRequests - (freeRequests || 0));
       groundingCost = (paidRequests * pricing.groundingSearch.price) / 1000;
     }
 
@@ -522,7 +522,8 @@ export default function GeminiCalculator() {
                                   model as keyof typeof geminiPricing
                                 ] as GeminiPricingItem
                               ).input
-                            : (
+                            : // @ts-expect-error This is a hack to get around TS any bad types.
+                              (
                                 geminiPricing[
                                   model as keyof typeof geminiPricing
                                 ] as GeminiPricingItem
@@ -738,7 +739,7 @@ export default function GeminiCalculator() {
             metadata={{
               name: model,
               provider: "Google",
-              category: modelMetadata.category,
+              category: modelMetadata.category as string,
               contextWindow: modelMetadata.contextWindow,
               inputCost:
                 typeof modelMetadata.input === "number"

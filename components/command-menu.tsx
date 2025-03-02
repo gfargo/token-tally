@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
-import { getAllModels } from '@/lib/models';
+import { getAllModels } from "@/lib/models";
 import {
   Calculator,
   CommandIcon,
@@ -63,9 +63,9 @@ export function CommandMenu() {
           const actualOutputTokens = !isNaN(outputTokens)
             ? outputTokens
             : inputTokens;
-          const inputCost = (model.inputCost * inputTokens) / 1_000_000;
+          const inputCost = ((model.inputCost || 0) * inputTokens) / 1_000_000;
           const outputCost =
-            (model.outputCost * actualOutputTokens) / 1_000_000;
+            ((model.outputCost || 0) * actualOutputTokens) / 1_000_000;
           return {
             model: model.model,
             provider: model.provider,

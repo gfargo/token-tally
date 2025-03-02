@@ -1,6 +1,6 @@
 "use client";
 
-import { ModelCostCharts } from "@/components/model-cost-charts";
+import { ModelCostCharts, ModelCostData } from "@/components/model-cost-charts";
 import { ModelCostComparisonChart } from "@/components/model-cost-comparison-chart";
 import { ModelMetadataCard } from "@/components/model-metadata-card";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,7 @@ const chartData = Object.entries(perplexityPricing).map(
     inputCost: data.input,
     outputCost: data.output,
   })
-);
+) as ModelCostData[];
 
 // combined pricing type to handle different pricing structures between models in config/pricing.ts
 type CombinedPricing = {
@@ -166,9 +166,11 @@ export default function PerplexityCalculator() {
                     <Label>Input Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {perplexityPricing[
-                        model as keyof typeof perplexityPricing
-                      ].input.toFixed(2)}{" "}
+                      {(
+                        perplexityPricing[
+                          model as keyof typeof perplexityPricing
+                        ].input || 0
+                      ).toFixed(2)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -176,9 +178,11 @@ export default function PerplexityCalculator() {
                     <Label>Output Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {perplexityPricing[
-                        model as keyof typeof perplexityPricing
-                      ].output.toFixed(2)}{" "}
+                      {(
+                        perplexityPricing[
+                          model as keyof typeof perplexityPricing
+                        ].output || 0
+                      ).toFixed(2)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -187,9 +191,10 @@ export default function PerplexityCalculator() {
                       <Label>Reasoning Cost</Label>
                       <div className="text-lg font-medium">
                         $
-                        {perplexityPricing[
-                          "sonar-deep-research"
-                        ].reasoning.toFixed(2)}{" "}
+                        {(
+                          perplexityPricing["sonar-deep-research"].reasoning ||
+                          0
+                        ).toFixed(2)}{" "}
                         / 1M tokens
                       </div>
                     </div>
@@ -326,9 +331,9 @@ export default function PerplexityCalculator() {
                       $
                       {(
                         (inputTokens *
-                          perplexityPricing[
+                          (perplexityPricing[
                             model as keyof typeof perplexityPricing
-                          ].input) /
+                          ].input || 0)) /
                         1_000_000
                       ).toFixed(6)}
                     </div>
@@ -341,9 +346,9 @@ export default function PerplexityCalculator() {
                       $
                       {(
                         (outputTokens *
-                          perplexityPricing[
+                          (perplexityPricing[
                             model as keyof typeof perplexityPricing
-                          ].output) /
+                          ].output || 0)) /
                         1_000_000
                       ).toFixed(6)}
                     </div>
@@ -357,8 +362,8 @@ export default function PerplexityCalculator() {
                         $
                         {(
                           (reasoningTokens *
-                            perplexityPricing["sonar-deep-research"]
-                              .reasoning) /
+                            (perplexityPricing["sonar-deep-research"]
+                              .reasoning || 0)) /
                           1_000_000
                         ).toFixed(6)}
                       </div>
@@ -437,7 +442,7 @@ export default function PerplexityCalculator() {
                         <tr key={modelName}>
                           <td className="px-4 py-3">{modelName}</td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.input.toFixed(2)}
+                            ${(pricing.input || 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
                             {"reasoning" in pricing &&
@@ -446,7 +451,7 @@ export default function PerplexityCalculator() {
                               : "-"}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.output.toFixed(2)}
+                            ${(pricing.output || 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
                             {"searchPrice" in pricing && pricing.searchPrice
@@ -478,19 +483,21 @@ export default function PerplexityCalculator() {
                   .category,
               inputCost:
                 perplexityPricing[model as keyof typeof perplexityPricing]
-                  .input,
+                  .input || 0,
               outputCost:
                 perplexityPricing[model as keyof typeof perplexityPricing]
-                  .output,
+                  .output || 0,
             }}
           />
           <ModelCostComparisonChart
             modelName={model}
             modelInputCost={
-              perplexityPricing[model as keyof typeof perplexityPricing].input
+              perplexityPricing[model as keyof typeof perplexityPricing]
+                .input || 0
             }
             modelOutputCost={
-              perplexityPricing[model as keyof typeof perplexityPricing].output
+              perplexityPricing[model as keyof typeof perplexityPricing]
+                .output || 0
             }
             averageInputCost={calculateAverageCosts().averageInputCost}
             averageOutputCost={calculateAverageCosts().averageOutputCost}

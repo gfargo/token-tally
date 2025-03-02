@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BaseTextModel } from '@/lib/models';
+import { BaseTextModel } from "@/lib/models";
 import { getCalculatorUrl } from "@/utils/providerUtils";
 import {
   Cpu,
@@ -99,7 +99,8 @@ export const ModelCard = ({ model }: { model: BaseTextModel }) => (
               <li>Input: ${model.fineTuning.input.toFixed(4)} / 1M tokens</li>
               <li>Output: ${model.fineTuning.output.toFixed(4)} / 1M tokens</li>
               <li>
-                Training: ${model.fineTuning.training.toFixed(2)} / 1M tokens
+                Training: ${(model.fineTuning.training || 0).toFixed(2)} / 1M
+                tokens
               </li>
             </ul>
           </div>
