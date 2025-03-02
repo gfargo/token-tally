@@ -1,5 +1,6 @@
 import { CommandMenu } from "@/components/command-menu";
 import { DownloadButton } from "@/components/download-button";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
@@ -106,6 +107,7 @@ export default function RootLayout({
           </footer>
         </div>
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
