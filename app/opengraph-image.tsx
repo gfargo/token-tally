@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 // import { readFile } from "node:fs/promises";
 // import { join } from "node:path";
-import { metadata } from "./layout";
 
 // Image metadata
 export const alt = "TokenTally logo";
@@ -32,10 +31,9 @@ export default async function Image() {
           justifyContent: "center",
         }}
       >
-        <div className="text-black">{metadata.title as string}</div>
-        <p className="text-gray-800">
-          All-in-One AI Cost Calculator for LLM APIs
-        </p>
+        <div className="text-black">
+          🤖🧮💸
+        </div>
       </div>
     ),
     // ImageResponse options
@@ -43,7 +41,7 @@ export default async function Image() {
       // For convenience, we can re-use the exported opengraph-image
       // size config to also set the ImageResponse's width and height.
       ...size,
-      
+
       // fonts: [
       //   {
       //     name: "Inter",
