@@ -85,8 +85,8 @@ export const getAllModels = (): AllModelsReturn => {
         model,
         inputCost: data.input,
         outputCost: data.output,
-        category: data.category,
-        provider: data.provider,
+        category: data.category!,
+        provider: data.provider!,
         contextWindow: data.contextWindow,
         unit: "per 1M tokens",
         fineTuning: data.fineTuning,
@@ -101,8 +101,8 @@ export const getAllModels = (): AllModelsReturn => {
       outputCost: data.output,
       promptCachingWriteCost: data.promptCachingWrite,
       promptCachingReadCost: data.promptCachingRead,
-      category: data.category,
-      provider: data.provider,
+      category: data.category!,
+      provider: data.provider!,
       contextWindow: data.contextWindow,
       batchProcessingDiscount: data.batchProcessingDiscount,
       unit: "per 1M tokens",
@@ -120,8 +120,8 @@ export const getAllModels = (): AllModelsReturn => {
             : 0,
         outputCost:
           typeof data.output === "number" ? data.output : data.output.small!,
-        category: data.category,
-        provider: data.provider,
+        category: data.category!,
+        provider: data.provider!,
         contextWindow: data.contextWindow,
         unit: "per 1M tokens",
       })
@@ -130,8 +130,8 @@ export const getAllModels = (): AllModelsReturn => {
       model,
       inputCost: data.input,
       outputCost: data.output,
-      category: data.category,
-      provider: data.provider,
+      category: data.category!,
+      provider: data.provider!,
       unit: "per 1M tokens",
     })),
   ];
@@ -184,28 +184,16 @@ export const getAllModels = (): AllModelsReturn => {
 
   const perplexityModels: BaseTextModel[] = Object.entries(
     perplexityPricing
-  ).map(
-    ([model, data]: [
-      string,
-      {
-        input: number;
-        reasoning: number;
-        output: number;
-        searchPrice: number;
-        category: string;
-        provider: string;
-      }
-    ]) => ({
-      model,
-      inputCost: data.input,
-      reasoningCost: data.reasoning,
-      outputCost: data.output,
-      searchPrice: data.searchPrice,
-      category: data.category,
-      provider: data.provider,
-      unit: "per 1M tokens",
-    })
-  );
+  ).map(([model, data]) => ({
+    model,
+    inputCost: data.input,
+    reasoningCost: data.reasoning,
+    outputCost: data.output,
+    searchPrice: data.searchPrice,
+    category: data.category!,
+    provider: data.provider!,
+    unit: "per 1M tokens",
+  }));
 
   const geminiModels: BaseTextModel[] = Object.entries(geminiPricing).map(
     ([model, data]: [string, GeminiPricingType]) => ({
@@ -220,8 +208,8 @@ export const getAllModels = (): AllModelsReturn => {
           : 0,
       outputCost:
         typeof data.output === "number" ? data.output : data.output.small!,
-      category: data.category,
-      provider: data.provider,
+      category: data.category!,
+      provider: data.provider!,
       contextWindow: data.contextWindow,
       unit: "per 1M tokens",
     })
