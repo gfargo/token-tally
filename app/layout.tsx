@@ -5,7 +5,6 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import type React from "react";
 import { Toaster } from "sonner";
-import { RootLayoutClient } from "./layout-client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,9 +59,7 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <main className="flex-grow">
-            <RootLayoutClient>{children}</RootLayoutClient>
-          </main>
+          <main className="flex-grow">{children}</main>
           <footer className="border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-14 max-w-screen-2xl items-center justify-between mx-auto">
               <div className="flex items-center space-x-4">

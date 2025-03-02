@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type React from "react";
 
-export function RootLayoutClient({
+export function AnimatedMainContainer({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -1,11 +1,12 @@
-import { getAllModels, getUniqueProviders } from '@/lib/models';
+import { AnimatedMainContainer } from "@/components/animated-main-container";
+import { getAllModels, getUniqueProviders } from "@/lib/models";
 import { ModelList } from "./_components/ModelList";
 import { metadata } from "./metadata";
 
 export { metadata };
 
 export default function ModelsPage() {
-  const allModels = getAllModels()
+  const allModels = getAllModels();
   const providers = ["All", ...getUniqueProviders()];
 
   return (
@@ -15,10 +16,12 @@ export default function ModelsPage() {
           <h1 className="text-3xl font-bold sr-only">Full AI Model List</h1>
         </div>
       </div>
-      <ModelList
-        allModels={allModels}
-        providers={providers}
-      />
+      <AnimatedMainContainer>
+        <ModelList
+          allModels={allModels}
+          providers={providers}
+        />
+      </AnimatedMainContainer>
     </div>
   );
 }

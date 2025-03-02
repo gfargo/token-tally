@@ -1,5 +1,6 @@
 "use client";
 
+import { FeedbackForm } from "@/app/feedback/_components/FeedbackForm";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -9,14 +10,12 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription, DialogFooter, DialogHeader,
-  DialogTitle
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { ChevronDown, ChevronUp, Coffee, Heart, Send } from "lucide-react";
-import type React from "react";
+import { ChevronDown, ChevronUp, Coffee, Heart } from "lucide-react";
 import { useState } from "react";
 
 interface FeedbackModalProps {
@@ -26,19 +25,6 @@ interface FeedbackModalProps {
 
 export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
-
-  const handleSubmitFeedback = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the feedback to your server
-    console.log("Feedback submitted:", { name, contact, feedback });
-    setName("");
-    setContact("");
-    setFeedback("");
-    setIsFormOpen(false);
-  };
 
   return (
     <Dialog
@@ -49,13 +35,15 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         <DialogHeader>
           <DialogTitle>Thank you for using TokenTally!</DialogTitle>
           <DialogDescription>
-            We hope the data you&apos;ve downloaded will be useful for your project.
+            We hope the data you&apos;ve downloaded will be useful for your
+            project.
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
           <p className="text-sm text-muted-foreground">
-            We&apos;d love to hear about what you&apos;re building or how you plan to use
-            this data. Your feedback helps us improve and expand our services.
+            We&apos;d love to hear about what you&apos;re building or how you
+            plan to use this data. Your feedback helps us improve and expand our
+            services.
           </p>
           <div className="flex flex-wrap flex-col gap-2">
             {/*
@@ -115,57 +103,19 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-4">
-              <form onSubmit={handleSubmitFeedback}>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="name">Name (optional)</Label>
-                    <Input
-                      id="name"
-                      placeholder="Your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="contact">Contact (optional)</Label>
-                    <Input
-                      id="contact"
-                      placeholder="Email or phone number"
-                      value={contact}
-                      onChange={(e) => setContact(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="feedback">Your Feedback</Label>
-                    <Textarea
-                      id="feedback"
-                      placeholder="Tell us what you think or how you plan to use the data..."
-                      value={feedback}
-                      onChange={(e) => setFeedback(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-                </div>
-                <Button
-                  type="submit"
-                  className="mt-4"
-                >
-                  <Send className="h-4 w-4 mr-2" />
-                  Submit Feedback
-                </Button>
-              </form>
+              <FeedbackForm />
             </CollapsibleContent>
           </Collapsible>
         </div>
         <DialogFooter className="sm:justify-start">
+          {/*
           <Button
             variant="outline"
             onClick={onClose}
           >
             Close
           </Button>
+          */}
           <a
             href="https://github.com/gfargo/"
             target="_blank"
