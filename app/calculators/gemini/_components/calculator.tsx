@@ -35,6 +35,21 @@ import { HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+type GeminiPricingItem = {
+  input: number | Record<string, number>;
+  output: number | Record<string, number>;
+  contextCaching?: {
+    price: number | Record<string, number>;
+    storage: number;
+  };
+  groundingSearch?: {
+    freeRequests?: number;
+    price: number;
+  };
+  contextWindow?: number;
+  category?: string;
+};
+
 export default function GeminiCalculator() {
   const [model, setModel] = useState("gemini-2.0-flash");
   const [inputTokens, setInputTokens] = useState(1000);
@@ -57,7 +72,8 @@ export default function GeminiCalculator() {
       return;
     }
 
-    const pricing = geminiPricing[model as keyof typeof geminiPricing];
+    const pricing: GeminiPricingItem =
+      geminiPricing[model as keyof typeof geminiPricing];
 
     // Calculate input cost
     let inputCost = 0;
@@ -90,7 +106,11 @@ export default function GeminiCalculator() {
 
     // Calculate context caching cost
     let cachingCost = 0;
-    if (useContextCaching && pricing.contextCaching) {
+    if (
+      useContextCaching &&
+      "contextCaching" in pricing &&
+      pricing.contextCaching
+    ) {
       const cachingPrice =
         typeof pricing.contextCaching.price === "number"
           ? pricing.contextCaching.price
@@ -104,8 +124,15 @@ export default function GeminiCalculator() {
 
     // Calculate grounding search cost
     let groundingCost = 0;
-    if (useGroundingSearch && pricing.groundingSearch) {
-      const freeRequests = pricing.groundingSearch.freeRequests || 0;
+    if (
+      useGroundingSearch &&
+      "groundingSearch" in pricing &&
+      pricing.groundingSearch
+    ) {
+      const freeRequests =
+        "freeRequests" in pricing.groundingSearch
+          ? pricing.groundingSearch.freeRequests
+          : 0;
       const paidRequests = Math.max(0, groundingRequests - freeRequests);
       groundingCost = (paidRequests * pricing.groundingSearch.price) / 1000;
     }
@@ -120,7 +147,11 @@ export default function GeminiCalculator() {
     const totalInputCost = models.reduce(
       (sum, model) =>
         sum +
-        (typeof model.input === "number" ? model.input : model.input.text),
+        (typeof model.input === "number"
+          ? model.input
+          : "text" in model.input
+          ? model.input.text
+          : model.input.small),
       0
     );
     const totalOutputCost = models.reduce(
@@ -135,10 +166,17 @@ export default function GeminiCalculator() {
     };
   };
 
-  const modelMetadata = geminiPricing[model as keyof typeof geminiPricing];
+  const modelMetadata = geminiPricing[
+    model as keyof typeof geminiPricing
+  ] as GeminiPricingItem;
   const chartData = Object.entries(geminiPricing).map(([modelName, data]) => ({
     model: modelName,
-    inputCost: typeof data.input === "number" ? data.input : data.input.text,
+    inputCost:
+      typeof data.input === "number"
+        ? data.input
+        : "text" in data.input
+        ? data.input.text
+        : data.input.small,
     outputCost:
       typeof data.output === "number" ? data.output : data.output.small,
   }));
@@ -250,15 +288,16 @@ export default function GeminiCalculator() {
                       $
                       {typeof geminiPricing[model as keyof typeof geminiPricing]
                         .input === "number"
-                        ? geminiPricing[
-                            model as keyof typeof geminiPricing
-                          ].input.toFixed(3)
+                        ? (
+                            (geminiPricing[model as keyof typeof geminiPricing]
+                              .input as number) || 0
+                          ).toFixed(3)
                         : (
                             geminiPricing[model as keyof typeof geminiPricing]
                               .input as Record<string, number>
                           )[
                             inputType === "text" ? inputType : promptSize
-                          ].toFixed(3)}{" "}
+                          ]!.toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -268,9 +307,10 @@ export default function GeminiCalculator() {
                       $
                       {typeof geminiPricing[model as keyof typeof geminiPricing]
                         .output === "number"
-                        ? geminiPricing[
-                            model as keyof typeof geminiPricing
-                          ].output.toFixed(3)
+                        ? (
+                            (geminiPricing[model as keyof typeof geminiPricing]
+                              .output as number) || 0
+                          ).toFixed(3)
                         : (
                             geminiPricing[model as keyof typeof geminiPricing]
                               .output as Record<string, number>
@@ -314,8 +354,11 @@ export default function GeminiCalculator() {
                   />
                 </div>
 
-                {geminiPricing[model as keyof typeof geminiPricing]
-                  .contextCaching && (
+                {(
+                  geminiPricing[
+                    model as keyof typeof geminiPricing
+                  ] as GeminiPricingItem
+                )?.contextCaching && (
                   <div className="space-y-4">
                     <div className="flex items-center space-x-2">
                       <Switch
@@ -381,8 +424,11 @@ export default function GeminiCalculator() {
                   </div>
                 )}
 
-                {geminiPricing[model as keyof typeof geminiPricing]
-                  .groundingSearch && (
+                {(
+                  geminiPricing[
+                    model as keyof typeof geminiPricing
+                  ] as GeminiPricingItem
+                ).groundingSearch && (
                   <div className="space-y-4">
                     <div className="flex items-center space-x-2">
                       <Switch
@@ -466,16 +512,21 @@ export default function GeminiCalculator() {
                       $
                       {(
                         (inputTokens *
-                          (typeof geminiPricing[
-                            model as keyof typeof geminiPricing
-                          ].input === "number"
-                            ? geminiPricing[model as keyof typeof geminiPricing]
-                                .input
+                          (typeof (
+                            geminiPricing[
+                              model as keyof typeof geminiPricing
+                            ] as GeminiPricingItem
+                          ).input === "number"
+                            ? (
+                                geminiPricing[
+                                  model as keyof typeof geminiPricing
+                                ] as GeminiPricingItem
+                              ).input
                             : (
                                 geminiPricing[
                                   model as keyof typeof geminiPricing
-                                ].input as Record<string, number>
-                              )[
+                                ] as GeminiPricingItem
+                              ).input[
                                 inputType === "text" ? inputType : promptSize
                               ])) /
                         1_000_000
@@ -490,7 +541,7 @@ export default function GeminiCalculator() {
                       $
                       {(
                         (outputTokens *
-                          (typeof geminiPricing[
+                          ((typeof geminiPricing[
                             model as keyof typeof geminiPricing
                           ].output === "number"
                             ? geminiPricing[model as keyof typeof geminiPricing]
@@ -499,7 +550,7 @@ export default function GeminiCalculator() {
                                 geminiPricing[
                                   model as keyof typeof geminiPricing
                                 ].output as Record<string, number>
-                              )[promptSize])) /
+                              )[promptSize]) as number)) /
                         1_000_000
                       ).toFixed(6)}
                     </div>
@@ -513,21 +564,32 @@ export default function GeminiCalculator() {
                         $
                         {(
                           (cachingTokens *
-                            (typeof geminiPricing[
-                              model as keyof typeof geminiPricing
-                            ].contextCaching!.price === "number"
-                              ? geminiPricing[
-                                  model as keyof typeof geminiPricing
-                                ].contextCaching!.price
-                              : (
+                            (typeof (
+                              geminiPricing[
+                                model as keyof typeof geminiPricing
+                              ] as GeminiPricingItem
+                            ).contextCaching?.price === "number"
+                              ? ((
                                   geminiPricing[
                                     model as keyof typeof geminiPricing
-                                  ].contextCaching!.price as any
-                                )[promptSize])) /
+                                  ] as GeminiPricingItem
+                                ).contextCaching?.price as number) ?? 0
+                              : (
+                                  (
+                                    geminiPricing[
+                                      model as keyof typeof geminiPricing
+                                    ] as GeminiPricingItem
+                                  ).contextCaching?.price as
+                                    | Record<string, number>
+                                    | undefined
+                                )?.[promptSize] ?? 0)) /
                             1_000_000 +
                           (cachingStorageHours *
-                            geminiPricing[model as keyof typeof geminiPricing]
-                              .contextCaching!.storage) /
+                            (((
+                              geminiPricing[
+                                model as keyof typeof geminiPricing
+                              ] as GeminiPricingItem
+                            ).contextCaching?.storage as number) ?? 0)) /
                             1_000_000
                         ).toFixed(6)}
                       </div>
@@ -544,12 +606,19 @@ export default function GeminiCalculator() {
                           (Math.max(
                             0,
                             groundingRequests -
-                              (geminiPricing[
-                                model as keyof typeof geminiPricing
-                              ].groundingSearch?.freeRequests || 0)
+                              ((
+                                geminiPricing[
+                                  model as keyof typeof geminiPricing
+                                ] as GeminiPricingItem
+                              ).groundingSearch?.freeRequests || 0)
                           ) *
-                            Number(geminiPricing[model as keyof typeof geminiPricing]
-                              .groundingSearch?.price ?? 0)) /
+                            Number(
+                              (
+                                geminiPricing[
+                                  model as keyof typeof geminiPricing
+                                ] as GeminiPricingItem
+                              ).groundingSearch?.price ?? 0
+                            )) /
                           1000
                         ).toFixed(6)}
                       </div>
@@ -601,7 +670,10 @@ export default function GeminiCalculator() {
                   </thead>
                   <tbody className="divide-y">
                     {Object.entries(geminiPricing).map(
-                      ([modelName, pricing], index) => (
+                      (
+                        [modelName, pricing]: [string, GeminiPricingItem],
+                        index
+                      ) => (
                         <tr key={`${modelName}-${index}`}>
                           <td className="px-4 py-3">{modelName}</td>
                           <td className="px-4 py-3 text-right">
@@ -671,7 +743,9 @@ export default function GeminiCalculator() {
               inputCost:
                 typeof modelMetadata.input === "number"
                   ? modelMetadata.input
-                  : modelMetadata.input.text,
+                  : "text" in modelMetadata.input
+                  ? modelMetadata.input.text
+                  : modelMetadata.input.small,
               outputCost:
                 typeof modelMetadata.output === "number"
                   ? modelMetadata.output
@@ -683,7 +757,9 @@ export default function GeminiCalculator() {
             modelInputCost={
               typeof modelMetadata.input === "number"
                 ? modelMetadata.input
-                : modelMetadata.input.text
+                : "text" in modelMetadata.input
+                ? modelMetadata.input.text
+                : modelMetadata.input.small
             }
             modelOutputCost={
               typeof modelMetadata.output === "number"

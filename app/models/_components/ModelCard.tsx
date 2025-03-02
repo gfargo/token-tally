@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseTextModel } from '@/lib/models';
 import { getCalculatorUrl } from "@/utils/providerUtils";
 import {
   Cpu,
@@ -39,26 +40,7 @@ const getModelIcon = (category: string) => {
   }
 };
 
-export interface ModelData {
-  model: string;
-  provider: string;
-  category: string;
-  inputCost: number | string;
-  outputCost: number | string;
-  contextWindow?: number;
-  
-  price?: number;
-  unit?: string;
-  context?: string;
-  
-  fineTuning?: {
-    input: number;
-    output: number;
-    training: number;
-  };
-}
-
-export const ModelCard = ({ model }: { model: ModelData }) => (
+export const ModelCard = ({ model }: { model: BaseTextModel }) => (
   <Card className="flex flex-col h-full">
     <CardHeader>
       <div className="flex items-center justify-between">

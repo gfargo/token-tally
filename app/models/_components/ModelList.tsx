@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AllModelsReturn } from '@/lib/models';
 import { getCalculatorUrl } from "@/utils/providerUtils";
 import {
   DollarSign,
@@ -26,20 +27,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ModelCard, ModelData } from "./ModelCard";
-
-interface ModelsData {
-  textModels: ModelData[];
-  imageModels: ModelData[];
-  embeddingModels: ModelData[];
-  audioModels: ModelData[];
-}
+import { ModelCard } from "./ModelCard";
 
 export const ModelList = ({
   allModels,
   providers,
 }: {
-  allModels: ModelsData;
+  allModels: AllModelsReturn;
   providers: string[];
 }) => {
   const [selectedProvider, setSelectedProvider] = useState("All");

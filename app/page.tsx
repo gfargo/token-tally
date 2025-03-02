@@ -121,7 +121,7 @@ export default function Home() {
   )
 }
 
-export function CalculatorCard({
+function CalculatorCard({
   title,
   description,
   icon,

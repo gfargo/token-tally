@@ -35,6 +35,15 @@ const chartData = Object.entries(perplexityPricing).map(
   })
 );
 
+// combined pricing type to handle different pricing structures between models in config/pricing.ts
+type CombinedPricing = {
+  input: number;
+  output: number;
+  reasoning?: number;
+  searchPrice?: number;
+  category?: string;
+};
+
 export default function PerplexityCalculator() {
   const [model, setModel] = useState("sonar-deep-research");
   const [inputTokens, setInputTokens] = useState(1000);
@@ -56,14 +65,17 @@ export default function PerplexityCalculator() {
       return;
     }
 
-    const pricing = perplexityPricing[model as keyof typeof perplexityPricing];
+    const pricing = perplexityPricing[
+      model as keyof typeof perplexityPricing
+    ] as CombinedPricing;
 
     // Calculate cost per token (converting from per million)
     const inputCostPerToken = pricing.input / 1_000_000;
     const outputCostPerToken = pricing.output / 1_000_000;
-    const reasoningCostPerToken = pricing.reasoning
-      ? pricing.reasoning / 1_000_000
-      : 0;
+    const reasoningCostPerToken =
+      "reasoning" in pricing && pricing.reasoning
+        ? pricing.reasoning / 1_000_000
+        : 0;
 
     // Calculate total cost
     const totalInputCost = inputTokens * inputCostPerToken;
@@ -73,9 +85,10 @@ export default function PerplexityCalculator() {
       totalInputCost + totalOutputCost + totalReasoningCost;
 
     // Calculate search cost
-    const searchCost = pricing.searchPrice
-      ? (searches * pricing.searchPrice) / 1000
-      : 0;
+    const searchCost =
+      "searchPrice" in pricing && pricing.searchPrice
+        ? (searches * pricing.searchPrice) / 1000
+        : 0;
 
     const total = totalTokenCost + searchCost;
 
@@ -83,7 +96,7 @@ export default function PerplexityCalculator() {
   };
 
   const calculateAverageCosts = () => {
-    const models = Object.values(perplexityPricing);
+    const models = Object.values(perplexityPricing) as CombinedPricing[];
     const totalInputCost = models.reduce((sum, model) => sum + model.input, 0);
     const totalOutputCost = models.reduce(
       (sum, model) => sum + model.output,
@@ -181,19 +194,30 @@ export default function PerplexityCalculator() {
                       </div>
                     </div>
                   )}
-                  {perplexityPricing[model as keyof typeof perplexityPricing]
-                    .searchPrice && (
-                    <div>
-                      <Label>Search Price</Label>
-                      <div className="text-lg font-medium">
-                        $
-                        {perplexityPricing[
-                          model as keyof typeof perplexityPricing
-                        ].searchPrice.toFixed(2)}{" "}
-                        / 1000 searches
+                  {(perplexityPricing[
+                    model as keyof typeof perplexityPricing
+                  ] as { searchPrice?: number }) &&
+                    "searchPrice" in
+                      perplexityPricing[
+                        model as keyof typeof perplexityPricing
+                      ] && (
+                      <div>
+                        <Label>Search Price</Label>
+                        <div className="text-lg font-medium">
+                          $
+                          {"searchPrice" in
+                            perplexityPricing[
+                              model as keyof typeof perplexityPricing
+                            ] &&
+                            (
+                              perplexityPricing[
+                                model as keyof typeof perplexityPricing
+                              ] as { searchPrice: number }
+                            ).searchPrice.toFixed(2)}{" "}
+                          / 1000 searches
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
 
                 <div>
@@ -249,8 +273,11 @@ export default function PerplexityCalculator() {
                   />
                 </div>
 
-                {perplexityPricing[model as keyof typeof perplexityPricing]
-                  .searchPrice && (
+                {(
+                  perplexityPricing[
+                    model as keyof typeof perplexityPricing
+                  ] as CombinedPricing
+                ).searchPrice && (
                   <div>
                     <Label htmlFor="searches">Number of Searches</Label>
                     <Input
@@ -337,8 +364,11 @@ export default function PerplexityCalculator() {
                       </div>
                     </div>
                   )}
-                  {perplexityPricing[model as keyof typeof perplexityPricing]
-                    .searchPrice && (
+                  {(
+                    perplexityPricing[
+                      model as keyof typeof perplexityPricing
+                    ] as CombinedPricing
+                  ).searchPrice && (
                     <div className="border rounded-md p-4">
                       <div className="text-sm text-muted-foreground mb-1">
                         Search Cost
@@ -347,9 +377,11 @@ export default function PerplexityCalculator() {
                         $
                         {(
                           (searches *
-                            perplexityPricing[
-                              model as keyof typeof perplexityPricing
-                            ].searchPrice!) /
+                            (
+                              perplexityPricing[
+                                model as keyof typeof perplexityPricing
+                              ] as CombinedPricing
+                            ).searchPrice!) /
                           1000
                         ).toFixed(6)}
                       </div>
@@ -408,7 +440,8 @@ export default function PerplexityCalculator() {
                             ${pricing.input.toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            {pricing.reasoning
+                            {"reasoning" in pricing &&
+                            pricing.reasoning !== undefined
                               ? `$${pricing.reasoning.toFixed(2)}`
                               : "-"}
                           </td>
@@ -416,7 +449,7 @@ export default function PerplexityCalculator() {
                             ${pricing.output.toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            {pricing.searchPrice
+                            {"searchPrice" in pricing && pricing.searchPrice
                               ? `$${pricing.searchPrice.toFixed(2)}`
                               : "-"}
                           </td>

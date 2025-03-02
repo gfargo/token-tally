@@ -1,11 +1,11 @@
-import { getAllModels, getUniqueProviders } from "@/config/pricing";
+import { getAllModels, getUniqueProviders } from '@/lib/models';
 import { ModelList } from "./_components/ModelList";
 import { metadata } from "./metadata";
 
 export { metadata };
 
 export default function ModelsPage() {
-  const allModels = getAllModels();
+  const allModels = getAllModels()
   const providers = ["All", ...getUniqueProviders()];
 
   return (
