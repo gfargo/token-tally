@@ -7,9 +7,9 @@ import Link from "next/link";
 import type React from "react";
 import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
-
 import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "TokenTally | All-in-One AI Cost Calculator for LLM APIs",
@@ -36,9 +36,9 @@ export default function RootLayout({
               <div className="mr-4 hidden md:flex">
                 <Link
                   href="/"
-                  className="mr-6 flex items-center space-x-2"
+                  className="mr-6 flex items-center space-x-2 text-primary/40 hover:text-primary transition-colors duration-150"
                 >
-                  <span className="hidden font-bold sm:inline-block">
+                  <span className="hidden font-bold sm:inline-block ">
                     TokenTally
                   </span>
                 </Link>
