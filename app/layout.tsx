@@ -38,7 +38,7 @@ export default function RootLayout({
                   href="/"
                   className="mr-6 flex items-center space-x-2 text-primary/40 hover:text-primary transition-colors duration-150"
                 >
-                  <span className="hidden font-bold sm:inline-block ">
+                  <span className="hidden font-bold sm:inline-block">
                     TokenTally
                   </span>
                 </Link>

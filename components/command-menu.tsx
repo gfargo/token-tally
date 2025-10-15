@@ -28,8 +28,8 @@ import { useEffect, useState } from "react";
 
 const calculators = [
   { name: "OpenAI GPT", href: "/calculators/openai" },
-  { name: "Claude", href: "/calculators/claude" },
-  { name: "Gemini", href: "/calculators/gemini" },
+  { name: "Claude", href: "/calculators/anthropic" },
+  { name: "Gemini", href: "/calculators/google" },
   { name: "DALL-E", href: "/calculators/dalle" },
   { name: "Whisper & TTS", href: "/calculators/audio" },
   { name: "Embedding", href: "/calculators/embedding" },

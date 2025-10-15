@@ -80,13 +80,13 @@ export default function Home() {
             title="Claude"
             description="Calculate costs for Claude 3 Opus, Sonnet, and Haiku models."
             icon={<MessageSquare className="h-5 w-5" />}
-            href="/calculators/claude"
+            href="/calculators/anthropic"
           />
           <CalculatorCard
             title="Gemini"
             description="Calculate costs for Google's Gemini models and features."
             icon={<MessageSquare className="h-5 w-5" />}
-            href="/calculators/gemini"
+            href="/calculators/google"
           />
           <CalculatorCard
             title="DALL-E"
