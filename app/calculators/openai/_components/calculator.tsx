@@ -39,7 +39,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export const OpenAICalculator = () => {
-  const [model, setModel] = useState("gpt-4o");
+  // Get available models and set default to first available
+  const availableModels = Object.keys(openaiPricing);
+  const [model, setModel] = useState(availableModels.includes("gpt-4o") ? "gpt-4o" : availableModels[0]);
   const [inputTokens, setInputTokens] = useState(1000);
   const [outputTokens, setOutputTokens] = useState(10000);
   const [useCache, setUseCache] = useState(false);
@@ -71,16 +73,16 @@ export const OpenAICalculator = () => {
     // Calculate cost per token (converting from per million)
     const inputCostPerToken =
       useAudio && "audioInput" in pricing
-        ? pricing.audioInput / 1_000_000
-        : pricing.input / 1_000_000;
+        ? (pricing.audioInput ?? 0) / 1_000_000
+        : (pricing.input ?? 0) / 1_000_000;
     const cachedInputCostPerToken =
       useAudio && "audioCachedInput" in pricing
-        ? pricing.audioCachedInput / 1_000_000
-        : pricing.cachedInput / 1_000_000;
+        ? (pricing.audioCachedInput ?? 0) / 1_000_000
+        : (pricing.cachedInput ?? pricing.input ?? 0) / 1_000_000;
     const outputCostPerToken =
       useAudio && "audioOutput" in pricing
-        ? pricing.audioOutput / 1_000_000
-        : pricing.output / 1_000_000;
+        ? (pricing.audioOutput ?? 0) / 1_000_000
+        : (pricing.output ?? 0) / 1_000_000;
 
     // Apply batch processing discount if enabled
     const batchDiscount = useBatchProcessing ? 0.5 : 1;
@@ -98,15 +100,15 @@ export const OpenAICalculator = () => {
   const modelMetadata = openaiPricing[model as keyof typeof openaiPricing];
   const chartData = Object.entries(openaiPricing).map(([modelName, data]) => ({
     model: modelName,
-    inputCost: data.input,
-    outputCost: data.output,
+    inputCost: data.input ?? 0,
+    outputCost: data.output ?? 0,
   }));
 
   const calculateAverageCosts = () => {
     const models = Object.values(openaiPricing);
-    const totalInputCost = models.reduce((sum, model) => sum + model.input, 0);
+    const totalInputCost = models.reduce((sum, model) => sum + (model.input ?? 0), 0);
     const totalOutputCost = models.reduce(
-      (sum, model) => sum + model.output,
+      (sum, model) => sum + (model.output ?? 0),
       0
     );
     return {
@@ -114,6 +116,17 @@ export const OpenAICalculator = () => {
       averageOutputCost: totalOutputCost / models.length,
     };
   };
+
+  // Group models by category for better UX
+  const groupedModels = Object.entries(openaiPricing).reduce((acc, [modelName, pricing]) => {
+    const category = pricing.category || "Other";
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(modelName);
+    return acc;
+  }, {} as Record<string, string[]>);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 60 }}
@@ -151,32 +164,16 @@ export const OpenAICalculator = () => {
                       <SelectValue placeholder="Select a model" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Reasoning Models</SelectLabel>
-                        <SelectItem value="o1">OpenAI - o1</SelectItem>
-                        <SelectItem value="o3-mini">
-                          OpenAI - o3-mini
-                        </SelectItem>
-                      </SelectGroup>
-                      <SelectGroup>
-                        <SelectLabel>GPT Models</SelectLabel>
-                        <SelectItem value="gpt-4.5">
-                          OpenAI - GPT-4.5
-                        </SelectItem>
-                        <SelectItem value="gpt-4o">OpenAI - GPT-4o</SelectItem>
-                        <SelectItem value="gpt-4o-mini">
-                          OpenAI - GPT-4o mini
-                        </SelectItem>
-                      </SelectGroup>
-                      <SelectGroup>
-                        <SelectLabel>Realtime API</SelectLabel>
-                        <SelectItem value="gpt-4o-realtime">
-                          OpenAI - GPT-4o Realtime
-                        </SelectItem>
-                        <SelectItem value="gpt-4o-mini-realtime">
-                          OpenAI - GPT-4o mini Realtime
-                        </SelectItem>
-                      </SelectGroup>
+                      {Object.entries(groupedModels).map(([category, models]) => (
+                        <SelectGroup key={category}>
+                          <SelectLabel>{category}</SelectLabel>
+                          {models.map((modelName) => (
+                            <SelectItem key={modelName} value={modelName}>
+                              {modelName}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -186,9 +183,9 @@ export const OpenAICalculator = () => {
                     <Label>Input Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {openaiPricing[
+                      {(openaiPricing[
                         model as keyof typeof openaiPricing
-                      ].input.toFixed(3)}{" "}
+                      ].input ?? 0).toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -196,9 +193,9 @@ export const OpenAICalculator = () => {
                     <Label>Output Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {openaiPricing[
+                      {(openaiPricing[
                         model as keyof typeof openaiPricing
-                      ].output.toFixed(3)}{" "}
+                      ].output ?? 0).toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -355,10 +352,11 @@ export const OpenAICalculator = () => {
                       {(
                         ((inputTokens *
                           (useCache
-                            ? openaiPricing[model as keyof typeof openaiPricing]
-                                .cachedInput
-                            : openaiPricing[model as keyof typeof openaiPricing]
-                                .input)) /
+                            ? (openaiPricing[model as keyof typeof openaiPricing]
+                                .cachedInput ?? openaiPricing[model as keyof typeof openaiPricing]
+                                .input ?? 0)
+                            : (openaiPricing[model as keyof typeof openaiPricing]
+                                .input ?? 0))) /
                           1_000_000) *
                         (useBatchProcessing ? 0.5 : 1)
                       ).toFixed(6)}
@@ -372,8 +370,8 @@ export const OpenAICalculator = () => {
                       $
                       {(
                         ((outputTokens *
-                          openaiPricing[model as keyof typeof openaiPricing]
-                            .output) /
+                          (openaiPricing[model as keyof typeof openaiPricing]
+                            .output ?? 0)) /
                           1_000_000) *
                         (useBatchProcessing ? 0.5 : 1)
                       ).toFixed(6)}
@@ -428,13 +426,13 @@ export const OpenAICalculator = () => {
                         <tr key={modelName}>
                           <td className="px-4 py-3">{modelName}</td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.input.toFixed(3)}
+                            ${(pricing.input ?? 0).toFixed(3)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.cachedInput.toFixed(3)}
+                            {pricing.cachedInput ? `$${pricing.cachedInput.toFixed(3)}` : "N/A"}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.output.toFixed(3)}
+                            ${(pricing.output ?? 0).toFixed(3)}
                           </td>
                           <td className="px-4 py-3 text-right">
                             {pricing.category}
@@ -465,14 +463,14 @@ export const OpenAICalculator = () => {
                 "contextWindow" in modelMetadata
                   ? modelMetadata.contextWindow
                   : 0,
-              inputCost: modelMetadata.input,
-              outputCost: modelMetadata.output,
+              inputCost: modelMetadata.input ?? 0,
+              outputCost: modelMetadata.output ?? 0,
             }}
           />
           <ModelCostComparisonChart
             modelName={model}
-            modelInputCost={modelMetadata.input}
-            modelOutputCost={modelMetadata.output}
+            modelInputCost={modelMetadata.input ?? 0}
+            modelOutputCost={modelMetadata.output ?? 0}
             averageInputCost={calculateAverageCosts().averageInputCost}
             averageOutputCost={calculateAverageCosts().averageOutputCost}
           />

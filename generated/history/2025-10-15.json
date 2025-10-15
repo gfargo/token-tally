@@ -3,297 +3,407 @@
   "providers": {
     "openai": {
       "gpt-5": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.25,
-        "cachedInput": 0.125,
-        "output": 10
+        "output": 10,
+        "cachedInput": 0.125
       },
       "gpt-5-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.25,
-        "cachedInput": 0.025,
-        "output": 2
+        "output": 2,
+        "cachedInput": 0.025
       },
       "gpt-5-nano": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.05,
-        "cachedInput": 0.005,
-        "output": 0.4
+        "output": 0.4,
+        "cachedInput": 0.005
       },
       "gpt-5-pro": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 15,
         "output": 120
       },
       "gpt-4.1": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2,
-        "cachedInput": 0.5,
-        "output": 8
+        "output": 8,
+        "cachedInput": 0.5
       },
       "gpt-4.1-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.4,
-        "cachedInput": 0.1,
-        "output": 1.6
+        "output": 1.6,
+        "cachedInput": 0.1
       },
       "gpt-4.1-nano": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.1,
-        "cachedInput": 0.025,
-        "output": 0.4
+        "output": 0.4,
+        "cachedInput": 0.025
       },
       "gpt-4o": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2.5,
-        "cachedInput": 1.25,
-        "output": 10
+        "output": 10,
+        "cachedInput": 1.25
       },
       "gpt-4o-2024-05-13": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 5,
         "output": 15
       },
       "gpt-4o-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.15,
-        "cachedInput": 0.075,
-        "output": 0.6
+        "output": 0.6,
+        "cachedInput": 0.075
       },
       "o1": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 15,
-        "cachedInput": 7.5,
-        "output": 60
+        "output": 60,
+        "cachedInput": 7.5
       },
       "o1-pro": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 150,
         "output": 600
       },
       "o3-pro": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 20,
         "output": 80
       },
       "o3": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2,
-        "cachedInput": 0.5,
-        "output": 8
+        "output": 8,
+        "cachedInput": 0.5
       },
       "o3-deep-research": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 10,
-        "cachedInput": 2.5,
-        "output": 40
+        "output": 40,
+        "cachedInput": 2.5
       },
       "o4-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.1,
-        "cachedInput": 0.275,
-        "output": 4.4
+        "output": 4.4,
+        "cachedInput": 0.275
       },
       "o4-mini-deep-research": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2,
-        "cachedInput": 0.5,
-        "output": 8
+        "output": 8,
+        "cachedInput": 0.5
       },
       "o3-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.1,
-        "cachedInput": 0.55,
-        "output": 4.4
+        "output": 4.4,
+        "cachedInput": 0.55
       },
       "o1-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.1,
-        "cachedInput": 0.55,
-        "output": 4.4
+        "output": 4.4,
+        "cachedInput": 0.55
       },
       "computer-use-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 3,
         "output": 12
       },
       "gpt-5-chat-latest": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.25,
-        "cachedInput": 0.125,
-        "output": 10
+        "output": 10,
+        "cachedInput": 0.125
       },
       "gpt-5-codex": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.25,
-        "cachedInput": 0.125,
-        "output": 10
+        "output": 10,
+        "cachedInput": 0.125
       },
       "gpt-realtime": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 4,
-        "cachedInput": 0.4,
-        "output": 16
+        "output": 16,
+        "cachedInput": 0.4
       },
       "gpt-realtime-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.6,
-        "cachedInput": 0.06,
-        "output": 2.4
+        "output": 2.4,
+        "cachedInput": 0.06
       },
       "gpt-4o-realtime-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 5,
-        "cachedInput": 2.5,
-        "output": 20
+        "output": 20,
+        "cachedInput": 2.5
       },
       "gpt-4o-mini-realtime-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.6,
-        "cachedInput": 0.3,
-        "output": 2.4
+        "output": 2.4,
+        "cachedInput": 0.3
       },
       "gpt-audio": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2.5,
         "output": 10
       },
       "gpt-audio-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.6,
         "output": 2.4
       },
       "gpt-4o-audio-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2.5,
         "output": 10
       },
       "gpt-4o-mini-audio-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.15,
         "output": 0.6
       },
       "codex-mini-latest": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.5,
-        "cachedInput": 0.375,
-        "output": 6
+        "output": 6,
+        "cachedInput": 0.375
       },
       "gpt-5-search-api": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 1.25,
         "output": 10
       },
       "gpt-4o-mini-search-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 0.15,
         "output": 0.6
       },
       "gpt-4o-search-preview": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2.5,
         "output": 10
       },
       "gpt-image-1": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 5,
         "cachedInput": 1.25
       },
       "gpt-image-1-mini": {
-        "provider": "OpenAI",
         "category": "Text tokens",
+        "provider": "OpenAI",
         "input": 2,
         "cachedInput": 0.2
       }
     },
     "anthropic": {
-      "claude-3-opus": {
+      "claude-opus-4-1": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
         "input": 15,
         "output": 75,
+        "contextWindow": 200000,
         "promptCachingWrite": 18.75,
         "promptCachingRead": 1.5,
-        "category": "Text Generation",
-        "provider": "Anthropic",
-        "contextWindow": 200000,
         "batchProcessingDiscount": 0.5
       },
-      "claude-3.7-sonnet": {
+      "claude-opus-4": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 15,
+        "output": 75,
+        "contextWindow": 200000,
+        "promptCachingWrite": 18.75,
+        "promptCachingRead": 1.5,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-sonnet-4-5": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
         "input": 3,
         "output": 15,
+        "contextWindow": 200000,
         "promptCachingWrite": 3.75,
         "promptCachingRead": 0.3,
-        "category": "Text Generation",
-        "provider": "Anthropic",
-        "contextWindow": 200000,
         "batchProcessingDiscount": 0.5
       },
-      "claude-3.5-haiku": {
-        "input": 0.8,
-        "output": 4,
-        "promptCachingWrite": 1,
-        "promptCachingRead": 0.08,
+      "claude-sonnet-4": {
         "category": "Text Generation",
         "provider": "Anthropic",
+        "input": 3,
+        "output": 15,
         "contextWindow": 200000,
+        "promptCachingWrite": 3.75,
+        "promptCachingRead": 0.3,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-3-7-sonnet": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 3,
+        "output": 15,
+        "contextWindow": 200000,
+        "promptCachingWrite": 3.75,
+        "promptCachingRead": 0.3,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-3-5-sonnet": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 3,
+        "output": 15,
+        "contextWindow": 200000,
+        "promptCachingWrite": 3.75,
+        "promptCachingRead": 0.3,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-4-5-haiku": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 1,
+        "output": 5,
+        "contextWindow": 200000,
+        "promptCachingWrite": 1.25,
+        "promptCachingRead": 0.1,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-3-5-haiku": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 0.8,
+        "output": 4,
+        "contextWindow": 200000,
+        "promptCachingWrite": 1,
+        "promptCachingRead": 0.08,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-opus-3": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 15,
+        "output": 75,
+        "contextWindow": 200000,
+        "promptCachingWrite": 18.75,
+        "promptCachingRead": 1.5,
+        "batchProcessingDiscount": 0.5
+      },
+      "claude-3-haiku": {
+        "category": "Text Generation",
+        "provider": "Anthropic",
+        "input": 0.25,
+        "output": 1.25,
+        "contextWindow": 200000,
+        "promptCachingWrite": 0.3,
+        "promptCachingRead": 0.03,
         "batchProcessingDiscount": 0.5
       }
     },
     "gemini": {
-      "gemini-pro": {
-        "input": 0.125,
-        "output": 0.375,
+      "gemini-2.5-pro": {
         "category": "Text Generation",
-        "provider": "Google"
-      },
-      "gemini-ultra": {
-        "input": 1.25,
-        "output": 3.75,
-        "category": "Text Generation",
-        "provider": "Google"
-      },
-      "gemini-2.0-flash": {
+        "provider": "Google",
         "input": {
-          "text": 0.1,
-          "image": 0.1,
-          "video": 0.1,
-          "audio": 0.7
+          "small": 1.25,
+          "large": 2.5
         },
+        "output": {
+          "small": 10,
+          "large": 15
+        },
+        "contextWindow": 1000000,
+        "contextCaching": {
+          "price": {
+            "small": 0.125,
+            "large": 0.25
+          },
+          "storage": 4.5
+        },
+        "groundingSearch": {
+          "freeRequests": 1500,
+          "price": 35
+        }
+      },
+      "gemini-2.5-flash": {
+        "category": "Text Generation",
+        "provider": "Google",
+        "input": {},
+        "output": 2.5,
+        "contextWindow": 1000000,
+        "contextCaching": {
+          "price": 0.03,
+          "storage": 1
+        },
+        "groundingSearch": {
+          "freeRequests": 1500,
+          "price": 35
+        }
+      },
+      "gemini-2.5-flash-preview": {
+        "category": "Text Generation",
+        "provider": "Google",
+        "input": {},
+        "output": 2.5,
+        "contextWindow": 1000000,
+        "contextCaching": {
+          "price": 0.0375,
+          "storage": 1
+        },
+        "groundingSearch": {
+          "freeRequests": 1500,
+          "price": 35
+        }
+      },
+      "gemini-2.5-flash-lite": {
+        "category": "Text Generation",
+        "provider": "Google",
+        "input": {},
         "output": 0.4,
+        "contextWindow": 1000000,
         "contextCaching": {
           "price": 0.025,
           "storage": 1
@@ -301,88 +411,157 @@
         "groundingSearch": {
           "freeRequests": 1500,
           "price": 35
-        },
+        }
+      },
+      "gemini-2.0-flash": {
         "category": "Text Generation",
         "provider": "Google",
-        "contextWindow": 1000000
-      },
-      "gemini-2.0-flash-lite": {
-        "input": 0.075,
-        "output": 0.3,
-        "category": "Text Generation",
-        "provider": "Google"
-      },
-      "gemini-1.5-flash": {
-        "input": {
-          "small": 0.075,
-          "large": 0.15
-        },
-        "output": {
-          "small": 0.3,
-          "large": 0.6
-        },
+        "input": {},
+        "output": 0.4,
+        "contextWindow": 1000000,
         "contextCaching": {
-          "price": {
-            "small": 0.01875,
-            "large": 0.0375
-          },
+          "price": 0.025,
           "storage": 1
         },
         "groundingSearch": {
+          "freeRequests": 1500,
           "price": 35
-        },
-        "category": "Text Generation",
-        "provider": "Google",
-        "contextWindow": 1000000
+        }
       },
       "gemini-1.5-flash-8b": {
-        "input": {
-          "small": 0.0375,
-          "large": 0.075
-        },
-        "output": {
-          "small": 0.15,
-          "large": 0.3
-        },
-        "contextCaching": {
-          "price": {
-            "small": 0.01,
-            "large": 0.02
-          },
-          "storage": 0.25
-        },
-        "groundingSearch": {
-          "price": 35
-        },
         "category": "Text Generation",
         "provider": "Google",
+        "input": 0.075,
+        "output": 0.3,
         "contextWindow": 1000000
       },
-      "gemini-1.5-pro": {
+      "gemini-2.5-computer-use-preview-10-2025": {
+        "category": "Text Generation",
+        "provider": "Google",
         "input": {
           "small": 1.25,
           "large": 2.5
         },
         "output": {
-          "small": 5,
-          "large": 10
+          "small": 10,
+          "large": 15
         },
-        "contextCaching": {
-          "price": {
-            "small": 0.3125,
-            "large": 0.625
-          },
-          "storage": 4.5
-        },
-        "groundingSearch": {
-          "price": 35
-        },
-        "category": "Text Generation",
-        "provider": "Google",
-        "contextWindow": 2000000
+        "contextWindow": 1000000
       }
     },
     "dalle": {
+      "gpt-image-1": {
+        "1024x1024-low": {
+          "price": 0.011,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-low": {
+          "price": 0.016,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-low": {
+          "price": 0.016,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1024-medium": {
+          "price": 0.042,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-medium": {
+          "price": 0.063,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-medium": {
+          "price": 0.063,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1024-high": {
+          "price": 0.167,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-high": {
+          "price": 0.25,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-high": {
+          "price": 0.25,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        }
+      },
+      "gpt-image-1-mini": {
+        "1024x1024-low": {
+          "price": 0.005,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-low": {
+          "price": 0.006,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-low": {
+          "price": 0.006,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1024-medium": {
+          "price": 0.011,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-medium": {
+          "price": 0.015,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-medium": {
+          "price": 0.015,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1024-high": {
+          "price": 0.036,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-high": {
+          "price": 0.052,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-high": {
+          "price": 0.052,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        }
+      },
       "dall-e-3": {
         "1024x1024": {
           "price": 0.04,
@@ -390,14 +569,32 @@
           "provider": "OpenAI",
           "unit": "per image"
         },
-        "1024x1792": {
+        "1024x1536": {
           "price": 0.08,
           "category": "Image Generation",
           "provider": "OpenAI",
           "unit": "per image"
         },
-        "1792x1024": {
+        "1536x1024": {
           "price": 0.08,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1024-hd": {
+          "price": 0.08,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1024x1536-hd": {
+          "price": 0.12,
+          "category": "Image Generation",
+          "provider": "OpenAI",
+          "unit": "per image"
+        },
+        "1536x1024-hd": {
+          "price": 0.12,
           "category": "Image Generation",
           "provider": "OpenAI",
           "unit": "per image"
@@ -405,19 +602,19 @@
       },
       "dall-e-2": {
         "1024x1024": {
-          "price": 0.02,
+          "price": 0.016,
           "category": "Image Generation",
           "provider": "OpenAI",
           "unit": "per image"
         },
-        "512x512": {
+        "1024x1536": {
           "price": 0.018,
           "category": "Image Generation",
           "provider": "OpenAI",
           "unit": "per image"
         },
-        "256x256": {
-          "price": 0.016,
+        "1536x1024": {
+          "price": 0.02,
           "category": "Image Generation",
           "provider": "OpenAI",
           "unit": "per image"
@@ -427,7 +624,7 @@
     "embedding": {
       "text-embedding-3-small": {
         "price": 0.02,
-        "context": "1K tokens",
+        "context": "8K tokens",
         "category": "Embedding",
         "provider": "OpenAI",
         "unit": "per 1M tokens"
@@ -445,113 +642,120 @@
         "category": "Embedding",
         "provider": "OpenAI",
         "unit": "per 1M tokens"
-      },
-      "cohere-embed-english-v3.0": {
-        "price": 0.1,
-        "context": "4K tokens",
-        "category": "Embedding",
-        "provider": "Cohere",
-        "unit": "per 1M tokens"
-      },
-      "cohere-embed-multilingual-v3.0": {
-        "price": 0.1,
-        "context": "4K tokens",
-        "category": "Embedding",
-        "provider": "Cohere",
-        "unit": "per 1M tokens"
       }
     },
     "audio": {
       "whisper": {
         "price": 0.006,
-        "unit": "per minute",
         "category": "Audio Transcription",
-        "provider": "OpenAI"
+        "provider": "OpenAI",
+        "unit": "per minute"
       },
-      "tts-1": {
-        "price": 0.015,
-        "unit": "per 1K characters",
+      "tts": {
+        "price": 15,
         "category": "Text to Speech",
-        "provider": "OpenAI"
+        "provider": "OpenAI",
+        "unit": "per 1M characters"
       },
-      "tts-1-hd": {
-        "price": 0.03,
-        "unit": "per 1K characters",
+      "tts-hd": {
+        "price": 30,
         "category": "Text to Speech",
-        "provider": "OpenAI"
+        "provider": "OpenAI",
+        "unit": "per 1M characters"
       }
     },
     "cohere": {
       "command": {
-        "input": 1,
-        "output": 2,
         "category": "Text Generation",
-        "provider": "Cohere"
+        "provider": "Cohere",
+        "input": 1,
+        "output": 2
       },
       "command-light": {
-        "input": 0.3,
-        "output": 0.6,
         "category": "Text Generation",
-        "provider": "Cohere"
+        "provider": "Cohere",
+        "input": 0.3,
+        "output": 0.6
       },
       "command-r": {
-        "input": 3,
-        "output": 15,
         "category": "Text Generation",
-        "provider": "Cohere"
+        "provider": "Cohere",
+        "input": 0.5,
+        "output": 1.5
       },
       "command-r-plus": {
-        "input": 5,
-        "output": 25,
         "category": "Text Generation",
-        "provider": "Cohere"
+        "provider": "Cohere",
+        "input": 2.5,
+        "output": 10
+      },
+      "aya-expanse-8b": {
+        "category": "Text Generation",
+        "provider": "Cohere",
+        "input": 0.5,
+        "output": 1.5
+      },
+      "aya-expanse-32b": {
+        "category": "Text Generation",
+        "provider": "Cohere",
+        "input": 0.5,
+        "output": 1.5
       }
     },
     "perplexity": {
-      "sonar-deep-research": {
-        "input": 2,
-        "reasoning": 3,
-        "output": 8,
-        "searchPrice": 5,
+      "sonar": {
         "category": "Text Generation",
-        "provider": "Perplexity.ai"
-      },
-      "sonar-reasoning-pro": {
-        "input": 2,
-        "output": 8,
-        "searchPrice": 5,
-        "category": "Text Generation",
-        "provider": "Perplexity.ai"
-      },
-      "sonar-reasoning": {
+        "provider": "Perplexity.ai",
         "input": 1,
-        "output": 5,
-        "searchPrice": 5,
-        "category": "Text Generation",
-        "provider": "Perplexity.ai"
+        "output": 1
       },
       "sonar-pro": {
+        "category": "Text Generation",
+        "provider": "Perplexity.ai",
         "input": 3,
-        "output": 15,
-        "searchPrice": 5,
-        "category": "Text Generation",
-        "provider": "Perplexity.ai"
+        "output": 15
       },
-      "sonar": {
+      "sonar-reasoning": {
+        "category": "Text Generation",
+        "provider": "Perplexity.ai",
         "input": 1,
-        "output": 1,
-        "searchPrice": 5,
-        "category": "Text Generation",
-        "provider": "Perplexity.ai"
+        "output": 5
       },
-      "r1-1776": {
+      "sonar-reasoning-pro": {
+        "category": "Text Generation",
+        "provider": "Perplexity.ai",
+        "input": 2,
+        "output": 8
+      },
+      "sonar-deep-research": {
+        "category": "Text Generation",
+        "provider": "Perplexity.ai",
         "input": 2,
         "output": 8,
-        "category": "Text Generation",
-        "provider": "Perplexity.ai"
+        "cachedInput": 2,
+        "reasoning": 3,
+        "searchPrice": 5
       }
     },
     "imagen": {
+      "imagen-4-fast": {
+        "price": 0.02,
+        "category": "Image Generation",
+        "provider": "Google",
+        "unit": "per image"
+      },
+      "imagen-4": {
+        "price": 0.04,
+        "category": "Image Generation",
+        "provider": "Google",
+        "unit": "per image"
+      },
+      "imagen-4-ultra": {
+        "price": 0.06,
+        "category": "Image Generation",
+        "provider": "Google",
+        "unit": "per image"
+      },
       "imagen-3": {
         "price": 0.03,
         "category": "Image Generation",

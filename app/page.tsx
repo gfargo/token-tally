@@ -71,51 +71,51 @@ export default function Home() {
           transition={{ staggerChildren: 5 }}
         >
           <CalculatorCard
-            title="OpenAI GPT"
-            description="Calculate costs for GPT-4.5, O1, O3-mini, GPT-4o, and other models."
+            title="OpenAI"
+            description="Calculate costs for OpenAI's text generation and reasoning models."
             icon={<MessageSquare className="h-5 w-5" />}
             href="/calculators/openai"
           />
           <CalculatorCard
-            title="Claude"
-            description="Calculate costs for Claude 3 Opus, Sonnet, and Haiku models."
+            title="Anthropic"
+            description="Calculate costs for Anthropic's Claude models with prompt caching and batch processing."
             icon={<MessageSquare className="h-5 w-5" />}
             href="/calculators/anthropic"
           />
           <CalculatorCard
-            title="Gemini"
-            description="Calculate costs for Google's Gemini models and features."
+            title="Google"
+            description="Calculate costs for Google's Gemini models with multimodal pricing."
             icon={<MessageSquare className="h-5 w-5" />}
             href="/calculators/google"
           />
           <CalculatorCard
             title="DALL-E"
-            description="Calculate image generation costs for DALL-E 2 and DALL-E 3."
+            description="Calculate image generation costs for OpenAI's DALL-E models."
             // eslint-disable-next-line jsx-a11y/alt-text -- Icon is decorative not an actual "Image" tag
             icon={<Image className="h-5 w-5" />}
             href="/calculators/dalle"
           />
           <CalculatorCard
-            title="Whisper & TTS"
-            description="Calculate costs for audio transcription and text-to-speech."
+            title="Audio"
+            description="Calculate costs for OpenAI's audio transcription and text-to-speech models."
             icon={<MicIcon className="h-5 w-5" />}
             href="/calculators/audio"
           />
           <CalculatorCard
-            title="Embedding"
-            description="Calculate costs for different OpenAI embedding models."
+            title="Embeddings"
+            description="Calculate costs for OpenAI's embedding models."
             icon={<Search className="h-5 w-5" />}
             href="/calculators/embedding"
           />
           <CalculatorCard
             title="Cohere"
-            description="Calculate costs for Command, Embed, and Rerank models."
+            description="Calculate costs for Cohere's language and embedding models."
             icon={<MessageSquare className="h-5 w-5" />}
             href="/calculators/cohere"
           />
           <CalculatorCard
-            title="Perplexity.ai"
-            description="Calculate costs for Sonar and R1-1776 models."
+            title="Perplexity"
+            description="Calculate costs for Perplexity's search and reasoning models."
             icon={<Search className="h-5 w-5" />}
             href="/calculators/perplexity"
           />

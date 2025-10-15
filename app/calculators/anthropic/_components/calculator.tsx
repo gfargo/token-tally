@@ -35,7 +35,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function ClaudeCalculator() {
-  const [model, setModel] = useState("claude-3-opus");
+  // Get available models and set default to first available
+  const availableModels = Object.keys(claudePricing);
+  const [model, setModel] = useState(availableModels.includes("claude-3-5-sonnet") ? "claude-3-5-sonnet" : availableModels[0]);
   const [inputTokens, setInputTokens] = useState(1000);
   const [outputTokens, setOutputTokens] = useState(5000);
   const [useBatchProcessing, setUseBatchProcessing] = useState(false);
@@ -64,17 +66,23 @@ export default function ClaudeCalculator() {
     }
 
     const pricing = claudePricing[model as keyof typeof claudePricing];
+    if (!pricing) {
+      toast.error("Invalid model", {
+        description: "Selected model not found in pricing data",
+      });
+      return;
+    }
 
     // Calculate cost per token (converting from per million)
-    const inputCostPerToken = pricing.input / 1_000_000;
-    const outputCostPerToken = pricing.output / 1_000_000;
+    const inputCostPerToken = (pricing.input ?? 0) / 1_000_000;
+    const outputCostPerToken = (pricing.output ?? 0) / 1_000_000;
     const promptCachingWriteCostPerToken =
-      pricing.promptCachingWrite / 1_000_000;
-    const promptCachingReadCostPerToken = pricing.promptCachingRead / 1_000_000;
+      (pricing.promptCachingWrite ?? 0) / 1_000_000;
+    const promptCachingReadCostPerToken = (pricing.promptCachingRead ?? 0) / 1_000_000;
 
     // Apply batch processing discount if enabled
     const batchDiscount = useBatchProcessing
-      ? pricing.batchProcessingDiscount
+      ? (pricing.batchProcessingDiscount ?? 1)
       : 1;
 
     // Calculate total cost
@@ -96,9 +104,9 @@ export default function ClaudeCalculator() {
 
   const calculateAverageCosts = () => {
     const models = Object.values(claudePricing);
-    const totalInputCost = models.reduce((sum, model) => sum + model.input, 0);
+    const totalInputCost = models.reduce((sum, model) => sum + (model.input ?? 0), 0);
     const totalOutputCost = models.reduce(
-      (sum, model) => sum + model.output,
+      (sum, model) => sum + (model.output ?? 0),
       0
     );
     return {
@@ -110,8 +118,8 @@ export default function ClaudeCalculator() {
   const modelMetadata = claudePricing[model as keyof typeof claudePricing];
   const chartData = Object.entries(claudePricing).map(([modelName, data]) => ({
     model: modelName,
-    inputCost: data.input,
-    outputCost: data.output,
+    inputCost: data.input ?? 0,
+    outputCost: data.output ?? 0,
   }));
 
   return (
@@ -151,15 +159,11 @@ export default function ClaudeCalculator() {
                       <SelectValue placeholder="Select a model" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="claude-3-opus">
-                        Claude 3 Opus
-                      </SelectItem>
-                      <SelectItem value="claude-3.7-sonnet">
-                        Claude 3.7 Sonnet
-                      </SelectItem>
-                      <SelectItem value="claude-3.5-haiku">
-                        Claude 3.5 Haiku
-                      </SelectItem>
+                      {availableModels.map((modelName) => (
+                        <SelectItem key={modelName} value={modelName}>
+                          {modelName}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -169,9 +173,7 @@ export default function ClaudeCalculator() {
                     <Label>Input Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {claudePricing[
-                        model as keyof typeof claudePricing
-                      ].input.toFixed(2)}{" "}
+                      {(modelMetadata?.input ?? 0).toFixed(2)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -179,9 +181,7 @@ export default function ClaudeCalculator() {
                     <Label>Output Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {claudePricing[
-                        model as keyof typeof claudePricing
-                      ].output.toFixed(2)}{" "}
+                      {(modelMetadata?.output ?? 0).toFixed(2)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -344,8 +344,7 @@ export default function ClaudeCalculator() {
                       $
                       {(
                         ((inputTokens *
-                          claudePricing[model as keyof typeof claudePricing]
-                            .input) /
+                          (modelMetadata?.input ?? 0)) /
                           1_000_000) *
                         (useBatchProcessing ? 0.5 : 1)
                       ).toFixed(6)}
@@ -359,8 +358,7 @@ export default function ClaudeCalculator() {
                       $
                       {(
                         ((outputTokens *
-                          claudePricing[model as keyof typeof claudePricing]
-                            .output) /
+                          (modelMetadata?.output ?? 0)) /
                           1_000_000) *
                         (useBatchProcessing ? 0.5 : 1)
                       ).toFixed(6)}
@@ -376,8 +374,7 @@ export default function ClaudeCalculator() {
                           $
                           {(
                             ((cachingWriteTokens *
-                              claudePricing[model as keyof typeof claudePricing]
-                                .promptCachingWrite) /
+                              (modelMetadata?.promptCachingWrite ?? 0)) /
                               1_000_000) *
                             (useBatchProcessing ? 0.5 : 1)
                           ).toFixed(6)}
@@ -391,8 +388,7 @@ export default function ClaudeCalculator() {
                           $
                           {(
                             ((cachingReadTokens *
-                              claudePricing[model as keyof typeof claudePricing]
-                                .promptCachingRead) /
+                              (modelMetadata?.promptCachingRead ?? 0)) /
                               1_000_000) *
                             (useBatchProcessing ? 0.5 : 1)
                           ).toFixed(6)}
@@ -453,19 +449,19 @@ export default function ClaudeCalculator() {
                         <tr key={modelName}>
                           <td className="px-4 py-3">{modelName}</td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.input.toFixed(2)}
+                            ${(pricing.input ?? 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.output.toFixed(2)}
+                            ${(pricing.output ?? 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.promptCachingWrite.toFixed(2)}
+                            ${(pricing.promptCachingWrite ?? 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.promptCachingRead.toFixed(2)}
+                            ${(pricing.promptCachingRead ?? 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            {pricing.contextWindow.toLocaleString()}
+                            {(pricing.contextWindow ?? 0).toLocaleString()}
                           </td>
                         </tr>
                       )
@@ -488,16 +484,16 @@ export default function ClaudeCalculator() {
             metadata={{
               name: model,
               provider: "Anthropic",
-              category: modelMetadata.category,
-              contextWindow: modelMetadata.contextWindow,
-              inputCost: modelMetadata.input,
-              outputCost: modelMetadata.output,
+              category: modelMetadata?.category ?? "Unknown",
+              contextWindow: modelMetadata?.contextWindow ?? 0,
+              inputCost: modelMetadata?.input ?? 0,
+              outputCost: modelMetadata?.output ?? 0,
             }}
           />
           <ModelCostComparisonChart
             modelName={model}
-            modelInputCost={modelMetadata.input}
-            modelOutputCost={modelMetadata.output}
+            modelInputCost={modelMetadata?.input ?? 0}
+            modelOutputCost={modelMetadata?.output ?? 0}
             averageInputCost={calculateAverageCosts().averageInputCost}
             averageOutputCost={calculateAverageCosts().averageOutputCost}
           />
