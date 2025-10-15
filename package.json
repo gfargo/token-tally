@@ -4,9 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "npm run pricing:update",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pricing:update": "tsx scripts/update-pricing.ts",
+    "pricing:update:dry": "tsx scripts/update-pricing.ts --dry-run --no-history",
+    "pricing:test": "tsx scripts/tests/openai-parser.test.ts && tsx scripts/tests/anthropic-parser.test.ts && tsx scripts/tests/gemini-parser.test.ts && tsx scripts/tests/cohere-parser.test.ts && tsx scripts/tests/perplexity-parser.test.ts",
+    "pricing:test:openai": "tsx scripts/tests/openai-parser.test.ts",
+    "pricing:test:anthropic": "tsx scripts/tests/anthropic-parser.test.ts",
+    "pricing:test:gemini": "tsx scripts/tests/gemini-parser.test.ts",
+    "pricing:test:cohere": "tsx scripts/tests/cohere-parser.test.ts",
+    "pricing:test:perplexity": "tsx scripts/tests/perplexity-parser.test.ts",
+    "test:pricing": "npm run pricing:test && npm run pricing:update:dry"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -39,9 +49,10 @@
     "@sentry/nextjs": "^9.3.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/og": "^0.6.5",
+    "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "cmdk": "^1.0.0",
+    "cmdk": "^1.1.1",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.477.0",
     "next": "15.2.0",
@@ -50,7 +61,8 @@
     "recharts": "^2.15.1",
     "sonner": "^2.0.1",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -61,6 +73,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

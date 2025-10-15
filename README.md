@@ -1,5 +1,9 @@
 # TokenTally: All-in-One AI Cost Calculator
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-2ea44f.svg)](LICENSE)
+![Next.js 15.2.0](https://img.shields.io/badge/Next.js-15.2.0-000000?logo=next.js)
+![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+
 [TokenTally](https://tokentalley.griffen.codes/) is an open source web application designed to empower developers, researchers, and businesses to estimate and compare costs across various AI and Large Language Model (LLM) APIs. In today’s rapidly evolving AI landscape, TokenTally provides a real-time, user-friendly interface to help you make informed decisions when integrating services like [OpenAI](https://www.openai.com/), [Claude](https://www.anthropic.com/), [Gemini](https://www.google.com/), [DALL-E](https://www.openai.com/dall-e-2), [Whisper](https://www.openai.com/research/whisper), [Cohere](https://cohere.ai/), and [Perplexity.ai](https://www.perplexity.ai/) into your projects.
 
 ## Features
@@ -16,15 +20,15 @@
 
 ## Project Structure Overview
 
-TokenTally follows a modern Next.js 15+ architecture using the App Router. Below is an breakdown of the project’s structure along with the most significant files:
+TokenTally follows a modern Next.js 15+ architecture using the App Router. Below is a breakdown of the project’s structure along with the most significant files:
 
 ```
 /app                  - Main application directory with pages and layout components (e.g., /app/page.tsx for the landing page)
 /components           - Reusable React components (Calculators, Toast Notifications, Charts, etc.)
-/styles               - Global and component-specific styles
+/config               - Application configuration including pricing data
+/config/pricing.ts    - Source of truth for all pricing and model definitions
 /public               - Static assets including images, icons, and dynamic OG images
 /utils                - Utility functions for API integrations and cost calculations
-/data                 - JSON files containing current pricing and model configurations
 /package.json         - Manages project dependencies and scripts (see updated snippet below)
 /next.config.js       - Next.js configuration file
 ```
@@ -83,6 +87,13 @@ Follow these steps to set up and run TokenTally locally:
    yarn build
    yarn start
    ```
+
+## Pricing Data Automation
+
+- `npm run pricing:update` refreshes `generated/pricing.json` with the latest provider data and stores a dated snapshot in `generated/history/`.
+- `npm run pricing:update:dry` runs the pipeline without writing files—helpful for CI or local smoke tests.
+- `npm run pricing:test` validates the OpenAI parser against the stored fixture before hitting live endpoints.
+- The build step triggers the updater automatically through the `prebuild` script; remove or comment out the hook if you need to bypass it temporarily.
 
 ---
 
