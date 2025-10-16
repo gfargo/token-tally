@@ -11,6 +11,18 @@ import {
   perplexityPricing,
 } from "@/config/pricing";
 
+// Raw pricing type from generated JSON (matches actual data structure)
+type RawClaudePricingForModels = {
+  input?: number;
+  output?: number;
+  promptCachingWrite?: number;
+  promptCachingRead?: number;
+  contextWindow?: number;
+  batchProcessingDiscount?: number;
+  category?: string;
+  provider?: string;
+};
+
 // Combined pricing data for global table
 export type BaseTextModel = {
   model: string;
@@ -95,18 +107,21 @@ export const getAllModels = (): AllModelsReturn => {
         audioOutput: data.audioOutput,
       })
     ),
-    ...Object.entries(claudePricing).map(([model, data]) => ({
-      model,
-      inputCost: data.input,
-      outputCost: data.output,
-      promptCachingWriteCost: data.promptCachingWrite,
-      promptCachingReadCost: data.promptCachingRead,
-      category: data.category!,
-      provider: data.provider!,
-      contextWindow: data.contextWindow,
-      batchProcessingDiscount: data.batchProcessingDiscount,
-      unit: "per 1M tokens",
-    })),
+    ...Object.entries(claudePricing).map(([model, data]) => {
+      const rawData = data as unknown as RawClaudePricingForModels;
+      return {
+        model,
+        inputCost: rawData.input,
+        outputCost: rawData.output,
+        promptCachingWriteCost: rawData.promptCachingWrite,
+        promptCachingReadCost: rawData.promptCachingRead,
+        category: rawData.category!,
+        provider: rawData.provider!,
+        contextWindow: rawData.contextWindow,
+        batchProcessingDiscount: rawData.batchProcessingDiscount,
+        unit: "per 1M tokens",
+      };
+    }),
     ...Object.entries(geminiPricing).map(
       ([model, data]: [string, GeminiPricingType]) => ({
         model,

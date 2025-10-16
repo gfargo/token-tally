@@ -38,6 +38,19 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+// Raw pricing type from generated JSON
+type RawOpenAIPricing = {
+  input?: number;
+  output?: number;
+  cachedInput?: number;
+  audioInput?: number;
+  audioOutput?: number;
+  audioCachedInput?: number;
+  contextWindow?: number;
+  category?: string;
+  provider?: string;
+};
+
 export const OpenAICalculator = () => {
   // Get available models and set default to first available
   const availableModels = Object.keys(openaiPricing);
@@ -51,14 +64,17 @@ export const OpenAICalculator = () => {
   const [activeTab, setActiveTab] = useState("token");
 
   const searchParams = useSearchParams();
-  const initialTokens = searchParams.get("tokens");
+  const inputParam = searchParams.get("input");
+  const outputParam = searchParams.get("output");
 
   useEffect(() => {
-    if (initialTokens) {
-      setInputTokens(Number(initialTokens));
-      setOutputTokens(Number(initialTokens));
+    if (inputParam) {
+      setInputTokens(Number(inputParam));
     }
-  }, [initialTokens]);
+    if (outputParam) {
+      setOutputTokens(Number(outputParam));
+    }
+  }, [inputParam, outputParam]);
 
   const calculateCost = () => {
     if (!inputTokens || !outputTokens) {
@@ -68,7 +84,7 @@ export const OpenAICalculator = () => {
       return;
     }
 
-    const pricing = openaiPricing[model as keyof typeof openaiPricing];
+    const pricing = openaiPricing[model as keyof typeof openaiPricing] as unknown as RawOpenAIPricing;
 
     // Calculate cost per token (converting from per million)
     const inputCostPerToken =
@@ -97,15 +113,15 @@ export const OpenAICalculator = () => {
     setCalculatedCost(total);
   };
 
-  const modelMetadata = openaiPricing[model as keyof typeof openaiPricing];
+  const modelMetadata = openaiPricing[model as keyof typeof openaiPricing] as unknown as RawOpenAIPricing;
   const chartData = Object.entries(openaiPricing).map(([modelName, data]) => ({
     model: modelName,
-    inputCost: data.input ?? 0,
-    outputCost: data.output ?? 0,
+    inputCost: (data as unknown as RawOpenAIPricing).input ?? 0,
+    outputCost: (data as unknown as RawOpenAIPricing).output ?? 0,
   }));
 
   const calculateAverageCosts = () => {
-    const models = Object.values(openaiPricing);
+    const models = Object.values(openaiPricing) as RawOpenAIPricing[];
     const totalInputCost = models.reduce((sum, model) => sum + (model.input ?? 0), 0);
     const totalOutputCost = models.reduce(
       (sum, model) => sum + (model.output ?? 0),
@@ -119,7 +135,7 @@ export const OpenAICalculator = () => {
 
   // Group models by category for better UX
   const groupedModels = Object.entries(openaiPricing).reduce((acc, [modelName, pricing]) => {
-    const category = pricing.category || "Other";
+    const category = (pricing as unknown as RawOpenAIPricing).category || "Other";
     if (!acc[category]) {
       acc[category] = [];
     }
@@ -183,9 +199,9 @@ export const OpenAICalculator = () => {
                     <Label>Input Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {(openaiPricing[
+                      {((openaiPricing[
                         model as keyof typeof openaiPricing
-                      ].input ?? 0).toFixed(3)}{" "}
+                      ] as unknown as RawOpenAIPricing).input ?? 0).toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -193,9 +209,9 @@ export const OpenAICalculator = () => {
                     <Label>Output Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {(openaiPricing[
+                      {((openaiPricing[
                         model as keyof typeof openaiPricing
-                      ].output ?? 0).toFixed(3)}{" "}
+                      ] as unknown as RawOpenAIPricing).output ?? 0).toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -352,10 +368,10 @@ export const OpenAICalculator = () => {
                       {(
                         ((inputTokens *
                           (useCache
-                            ? (openaiPricing[model as keyof typeof openaiPricing]
-                                .cachedInput ?? openaiPricing[model as keyof typeof openaiPricing]
+                            ? ((openaiPricing[model as keyof typeof openaiPricing] as unknown as RawOpenAIPricing)
+                                .cachedInput ?? (openaiPricing[model as keyof typeof openaiPricing] as unknown as RawOpenAIPricing)
                                 .input ?? 0)
-                            : (openaiPricing[model as keyof typeof openaiPricing]
+                            : ((openaiPricing[model as keyof typeof openaiPricing] as unknown as RawOpenAIPricing)
                                 .input ?? 0))) /
                           1_000_000) *
                         (useBatchProcessing ? 0.5 : 1)
@@ -370,7 +386,7 @@ export const OpenAICalculator = () => {
                       $
                       {(
                         ((outputTokens *
-                          (openaiPricing[model as keyof typeof openaiPricing]
+                          ((openaiPricing[model as keyof typeof openaiPricing] as unknown as RawOpenAIPricing)
                             .output ?? 0)) /
                           1_000_000) *
                         (useBatchProcessing ? 0.5 : 1)
@@ -422,23 +438,26 @@ export const OpenAICalculator = () => {
                   </thead>
                   <tbody className="divide-y">
                     {Object.entries(openaiPricing).map(
-                      ([modelName, pricing]) => (
-                        <tr key={modelName}>
-                          <td className="px-4 py-3">{modelName}</td>
-                          <td className="px-4 py-3 text-right">
-                            ${(pricing.input ?? 0).toFixed(3)}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            {pricing.cachedInput ? `$${pricing.cachedInput.toFixed(3)}` : "N/A"}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            ${(pricing.output ?? 0).toFixed(3)}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            {pricing.category}
-                          </td>
-                        </tr>
-                      )
+                      ([modelName, pricing]) => {
+                        const p = pricing as unknown as RawOpenAIPricing;
+                        return (
+                          <tr key={modelName}>
+                            <td className="px-4 py-3">{modelName}</td>
+                            <td className="px-4 py-3 text-right">
+                              ${(p.input ?? 0).toFixed(3)}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              {p.cachedInput ? `$${p.cachedInput.toFixed(3)}` : "N/A"}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              ${(p.output ?? 0).toFixed(3)}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              {p.category}
+                            </td>
+                          </tr>
+                        );
+                      }
                     )}
                   </tbody>
                 </table>
@@ -458,11 +477,8 @@ export const OpenAICalculator = () => {
             metadata={{
               name: model,
               provider: "OpenAI",
-              category: modelMetadata.category,
-              contextWindow:
-                "contextWindow" in modelMetadata
-                  ? modelMetadata.contextWindow
-                  : 0,
+              category: modelMetadata.category ?? "Unknown",
+              contextWindow: modelMetadata.contextWindow ?? 0,
               inputCost: modelMetadata.input ?? 0,
               outputCost: modelMetadata.output ?? 0,
             }}

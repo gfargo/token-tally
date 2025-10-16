@@ -150,14 +150,14 @@ export default function GeminiCalculator() {
         (typeof model.input === "number"
           ? model.input
           : "text" in model.input
-          ? model.input.text
-          : model.input.small),
+          ? (model.input.text ?? 0)
+          : ((model.input as Record<string, number>).small ?? 0)),
       0
     );
     const totalOutputCost = models.reduce(
       (sum, model) =>
         sum +
-        (typeof model.output === "number" ? model.output : model.output.small),
+        (typeof model.output === "number" ? model.output : ((model.output as Record<string, number>).small ?? 0)),
       0
     );
     return {
@@ -175,10 +175,10 @@ export default function GeminiCalculator() {
       typeof data.input === "number"
         ? data.input
         : "text" in data.input
-        ? data.input.text
-        : data.input.small,
+        ? (data.input.text ?? 0)
+        : ((data.input as Record<string, number>).small ?? 0),
     outputCost:
-      typeof data.output === "number" ? data.output : data.output.small,
+      typeof data.output === "number" ? data.output : ((data.output as Record<string, number>).small ?? 0),
   }));
 
   return (
@@ -293,11 +293,11 @@ export default function GeminiCalculator() {
                               .input as number) || 0
                           ).toFixed(3)
                         : (
-                            geminiPricing[model as keyof typeof geminiPricing]
+                            (geminiPricing[model as keyof typeof geminiPricing]
                               .input as Record<string, number>
                           )[
                             inputType === "text" ? inputType : promptSize
-                          ]!.toFixed(3)}{" "}
+                          ] ?? 0).toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -312,9 +312,9 @@ export default function GeminiCalculator() {
                               .output as number) || 0
                           ).toFixed(3)
                         : (
-                            geminiPricing[model as keyof typeof geminiPricing]
+                            (geminiPricing[model as keyof typeof geminiPricing]
                               .output as Record<string, number>
-                          )[promptSize].toFixed(3)}{" "}
+                          )[promptSize] ?? 0).toFixed(3)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -739,18 +739,18 @@ export default function GeminiCalculator() {
             metadata={{
               name: model,
               provider: "Google",
-              category: modelMetadata.category as string,
-              contextWindow: modelMetadata.contextWindow,
+              category: modelMetadata.category ?? "Unknown",
+              contextWindow: modelMetadata.contextWindow ?? 0,
               inputCost:
                 typeof modelMetadata.input === "number"
                   ? modelMetadata.input
                   : "text" in modelMetadata.input
-                  ? modelMetadata.input.text
-                  : modelMetadata.input.small,
+                  ? (modelMetadata.input.text ?? 0)
+                  : ((modelMetadata.input as Record<string, number>).small ?? 0),
               outputCost:
                 typeof modelMetadata.output === "number"
                   ? modelMetadata.output
-                  : modelMetadata.output.small,
+                  : ((modelMetadata.output as Record<string, number>).small ?? 0),
             }}
           />
           <ModelCostComparisonChart
@@ -759,13 +759,13 @@ export default function GeminiCalculator() {
               typeof modelMetadata.input === "number"
                 ? modelMetadata.input
                 : "text" in modelMetadata.input
-                ? modelMetadata.input.text
-                : modelMetadata.input.small
+                ? (modelMetadata.input.text ?? 0)
+                : ((modelMetadata.input as Record<string, number>).small ?? 0)
             }
             modelOutputCost={
               typeof modelMetadata.output === "number"
                 ? modelMetadata.output
-                : modelMetadata.output.small
+                : ((modelMetadata.output as Record<string, number>).small ?? 0)
             }
             averageInputCost={calculateAverageCosts().averageInputCost}
             averageOutputCost={calculateAverageCosts().averageOutputCost}

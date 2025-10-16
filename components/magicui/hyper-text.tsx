@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, MotionProps } from "motion/react";
+import { AnimatePresence, motion, MotionProps } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 type CharacterSet = string[] | readonly string[];
@@ -42,9 +42,7 @@ export function HyperText({
   characterSet = DEFAULT_CHARACTER_SET,
   ...props
 }: HyperTextProps) {
-  const MotionComponent = motion.create(Component, {
-    forwardMotionProps: true,
-  });
+  const MotionComponent = motion(Component);
 
   const [displayText, setDisplayText] = useState<string[]>(() =>
     children.split(""),

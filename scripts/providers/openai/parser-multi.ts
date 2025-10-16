@@ -83,13 +83,14 @@ export const parseOpenAITextTokens = (markdown: string): TextPricingRecord => {
     }
 
     planByModel[model] = planRank;
+    // Use type assertion to match runtime JSON structure (not TypeScript type)
     models[model] = {
       provider: PROVIDER,
       category: category || "Text tokens",
       input: data.input,
       cachedInput: data.cachedInput,
       output: data.output,
-    };
+    } as any;
   };
 
   const findNextDataLine = (start: number): string | null => {

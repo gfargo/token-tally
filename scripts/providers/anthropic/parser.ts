@@ -141,6 +141,7 @@ export const parseAnthropicMarkdown = (markdown: string): TextPricingRecord => {
     const cacheWrite = cache5mIndex !== -1 ? parseCurrency(row[cache5mIndex] ?? "") : undefined;
     const cacheRead = cacheHitsIndex !== -1 ? parseCurrency(row[cacheHitsIndex] ?? "") : undefined;
 
+    // Use type assertion to match runtime JSON structure (not TypeScript type)
     models[modelKey] = {
       provider: PROVIDER,
       category: CATEGORY,
@@ -150,7 +151,7 @@ export const parseAnthropicMarkdown = (markdown: string): TextPricingRecord => {
       promptCachingRead: cacheRead,
       contextWindow: CONTEXT_WINDOW,
       batchProcessingDiscount: BATCH_DISCOUNT,
-    };
+    } as any;
   }
 
   if (Object.keys(models).length === 0) {

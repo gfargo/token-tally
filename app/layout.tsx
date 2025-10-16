@@ -8,6 +8,7 @@ import type React from "react";
 import { Toaster } from "sonner";
 
 import "./globals.css";
+import { CalculatorIcon } from 'lucide-react';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
                   href="/"
                   className="mr-6 flex items-center space-x-2 text-primary/40 hover:text-primary transition-colors duration-150"
                 >
+                  <CalculatorIcon className='h-6 w-6' />
                   <span className="hidden font-bold sm:inline-block">
                     TokenTally
                   </span>

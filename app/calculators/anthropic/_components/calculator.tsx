@@ -34,6 +34,18 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+// Raw pricing type from generated JSON
+type RawClaudePricing = {
+  input?: number;
+  output?: number;
+  promptCachingWrite?: number;
+  promptCachingRead?: number;
+  contextWindow?: number;
+  batchProcessingDiscount?: number;
+  category?: string;
+  provider?: string;
+};
+
 export default function ClaudeCalculator() {
   // Get available models and set default to first available
   const availableModels = Object.keys(claudePricing);
@@ -48,14 +60,17 @@ export default function ClaudeCalculator() {
   const [activeTab, setActiveTab] = useState("token");
 
   const searchParams = useSearchParams();
-  const initialTokens = searchParams.get("tokens");
+  const inputParam = searchParams.get("input");
+  const outputParam = searchParams.get("output");
 
   useEffect(() => {
-    if (initialTokens) {
-      setInputTokens(Number(initialTokens));
-      setOutputTokens(Number(initialTokens));
+    if (inputParam) {
+      setInputTokens(Number(inputParam));
     }
-  }, [initialTokens]);
+    if (outputParam) {
+      setOutputTokens(Number(outputParam));
+    }
+  }, [inputParam, outputParam]);
 
   const calculateCost = () => {
     if (!inputTokens || !outputTokens) {
@@ -65,7 +80,7 @@ export default function ClaudeCalculator() {
       return;
     }
 
-    const pricing = claudePricing[model as keyof typeof claudePricing];
+    const pricing = claudePricing[model as keyof typeof claudePricing] as unknown as RawClaudePricing;
     if (!pricing) {
       toast.error("Invalid model", {
         description: "Selected model not found in pricing data",
@@ -82,7 +97,7 @@ export default function ClaudeCalculator() {
 
     // Apply batch processing discount if enabled
     const batchDiscount = useBatchProcessing
-      ? (pricing.batchProcessingDiscount ?? 1)
+      ? (pricing.batchProcessingDiscount ?? 0.5)
       : 1;
 
     // Calculate total cost
@@ -103,7 +118,7 @@ export default function ClaudeCalculator() {
   };
 
   const calculateAverageCosts = () => {
-    const models = Object.values(claudePricing);
+    const models = Object.values(claudePricing) as RawClaudePricing[];
     const totalInputCost = models.reduce((sum, model) => sum + (model.input ?? 0), 0);
     const totalOutputCost = models.reduce(
       (sum, model) => sum + (model.output ?? 0),
@@ -115,11 +130,11 @@ export default function ClaudeCalculator() {
     };
   };
 
-  const modelMetadata = claudePricing[model as keyof typeof claudePricing];
+  const modelMetadata = claudePricing[model as keyof typeof claudePricing] as unknown as RawClaudePricing;
   const chartData = Object.entries(claudePricing).map(([modelName, data]) => ({
     model: modelName,
-    inputCost: data.input ?? 0,
-    outputCost: data.output ?? 0,
+    inputCost: (data as unknown as RawClaudePricing).input ?? 0,
+    outputCost: (data as unknown as RawClaudePricing).output ?? 0,
   }));
 
   return (
@@ -445,26 +460,29 @@ export default function ClaudeCalculator() {
                   </thead>
                   <tbody className="divide-y">
                     {Object.entries(claudePricing).map(
-                      ([modelName, pricing]) => (
-                        <tr key={modelName}>
-                          <td className="px-4 py-3">{modelName}</td>
-                          <td className="px-4 py-3 text-right">
-                            ${(pricing.input ?? 0).toFixed(2)}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            ${(pricing.output ?? 0).toFixed(2)}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            ${(pricing.promptCachingWrite ?? 0).toFixed(2)}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            ${(pricing.promptCachingRead ?? 0).toFixed(2)}
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            {(pricing.contextWindow ?? 0).toLocaleString()}
-                          </td>
-                        </tr>
-                      )
+                      ([modelName, pricing]) => {
+                        const p = pricing as unknown as RawClaudePricing;
+                        return (
+                          <tr key={modelName}>
+                            <td className="px-4 py-3">{modelName}</td>
+                            <td className="px-4 py-3 text-right">
+                              ${(p.input ?? 0).toFixed(2)}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              ${(p.output ?? 0).toFixed(2)}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              ${(p.promptCachingWrite ?? 0).toFixed(2)}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              ${(p.promptCachingRead ?? 0).toFixed(2)}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              {(p.contextWindow ?? 0).toLocaleString()}
+                            </td>
+                          </tr>
+                        );
+                      }
                     )}
                   </tbody>
                 </table>

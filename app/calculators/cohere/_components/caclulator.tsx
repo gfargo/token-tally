@@ -29,8 +29,8 @@ import { toast } from "sonner";
 
 const chartData = Object.entries(coherePricing).map(([modelName, data]) => ({
   model: modelName,
-  inputCost: data.input,
-  outputCost: data.output,
+  inputCost: data.input ?? 0,
+  outputCost: data.output ?? 0,
 }));
 
 export default function CohereCalculator() {
@@ -51,8 +51,8 @@ export default function CohereCalculator() {
     const pricing = coherePricing[model as keyof typeof coherePricing];
 
     // Calculate cost per token (converting from per million)
-    const inputCostPerToken = pricing.input / 1_000_000;
-    const outputCostPerToken = pricing.output / 1_000_000;
+    const inputCostPerToken = (pricing.input ?? 0) / 1_000_000;
+    const outputCostPerToken = (pricing.output ?? 0) / 1_000_000;
 
     // Calculate total cost
     const totalInputCost = inputTokens * inputCostPerToken;
@@ -64,9 +64,9 @@ export default function CohereCalculator() {
 
   const calculateAverageCosts = () => {
     const models = Object.values(coherePricing);
-    const totalInputCost = models.reduce((sum, model) => sum + model.input, 0);
+    const totalInputCost = models.reduce((sum, model) => sum + (model.input ?? 0), 0);
     const totalOutputCost = models.reduce(
-      (sum, model) => sum + model.output,
+      (sum, model) => sum + (model.output ?? 0),
       0
     );
     return {
@@ -127,9 +127,9 @@ export default function CohereCalculator() {
                     <Label>Input Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {coherePricing[
+                      {(coherePricing[
                         model as keyof typeof coherePricing
-                      ].input.toFixed(2)}{" "}
+                      ].input ?? 0).toFixed(2)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -137,9 +137,9 @@ export default function CohereCalculator() {
                     <Label>Output Cost</Label>
                     <div className="text-lg font-medium">
                       $
-                      {coherePricing[
+                      {(coherePricing[
                         model as keyof typeof coherePricing
-                      ].output.toFixed(2)}{" "}
+                      ].output ?? 0).toFixed(2)}{" "}
                       / 1M tokens
                     </div>
                   </div>
@@ -214,8 +214,8 @@ export default function CohereCalculator() {
                       $
                       {(
                         (inputTokens *
-                          coherePricing[model as keyof typeof coherePricing]
-                            .input) /
+                          (coherePricing[model as keyof typeof coherePricing]
+                            .input ?? 0)) /
                         1_000_000
                       ).toFixed(6)}
                     </div>
@@ -228,8 +228,8 @@ export default function CohereCalculator() {
                       $
                       {(
                         (outputTokens *
-                          coherePricing[model as keyof typeof coherePricing]
-                            .output) /
+                          (coherePricing[model as keyof typeof coherePricing]
+                            .output ?? 0)) /
                         1_000_000
                       ).toFixed(6)}
                     </div>
@@ -277,10 +277,10 @@ export default function CohereCalculator() {
                         <tr key={modelName}>
                           <td className="px-4 py-3">{modelName}</td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.input.toFixed(2)}
+                            ${(pricing.input ?? 0).toFixed(2)}
                           </td>
                           <td className="px-4 py-3 text-right">
-                            ${pricing.output.toFixed(2)}
+                            ${(pricing.output ?? 0).toFixed(2)}
                           </td>
                         </tr>
                       )
@@ -303,20 +303,20 @@ export default function CohereCalculator() {
               name: model,
               provider: "Cohere",
               category:
-                coherePricing[model as keyof typeof coherePricing].category,
+                coherePricing[model as keyof typeof coherePricing].category ?? "Unknown",
               inputCost:
-                coherePricing[model as keyof typeof coherePricing].input,
+                coherePricing[model as keyof typeof coherePricing].input ?? 0,
               outputCost:
-                coherePricing[model as keyof typeof coherePricing].output,
+                coherePricing[model as keyof typeof coherePricing].output ?? 0,
             }}
           />
           <ModelCostComparisonChart
             modelName={model}
             modelInputCost={
-              coherePricing[model as keyof typeof coherePricing].input
+              coherePricing[model as keyof typeof coherePricing].input ?? 0
             }
             modelOutputCost={
-              coherePricing[model as keyof typeof coherePricing].output
+              coherePricing[model as keyof typeof coherePricing].output ?? 0
             }
             averageInputCost={calculateAverageCosts().averageInputCost}
             averageOutputCost={calculateAverageCosts().averageOutputCost}

@@ -104,19 +104,20 @@ export const parsePerplexityMarkdown = (
 
     if (input === undefined || output === undefined) continue;
 
+    // Use type assertion to match runtime JSON structure (not TypeScript type)
     models[modelKey] = {
       provider: PROVIDER,
       category: CATEGORY,
       input,
       output,
-    };
+    } as any;
 
     // Add optional fields if present
     if (citationColIndex !== -1 && cells[citationColIndex]) {
       const citation = parseCurrency(cells[citationColIndex]);
       if (citation !== undefined) {
         // Store citation price as cachedInput for now (we don't have a dedicated field)
-        models[modelKey].cachedInput = citation;
+        (models[modelKey] as any).cachedInput = citation;
       }
     }
 
@@ -125,14 +126,14 @@ export const parsePerplexityMarkdown = (
       if (searchPrice !== undefined) {
         // Search queries are priced per 1K, but we store per 1M for consistency
         // Actually, searchPrice is per 1K queries, so we keep it as-is
-        models[modelKey].searchPrice = searchPrice;
+        (models[modelKey] as any).searchPrice = searchPrice;
       }
     }
 
     if (reasoningColIndex !== -1 && cells[reasoningColIndex]) {
       const reasoning = parseCurrency(cells[reasoningColIndex]);
       if (reasoning !== undefined) {
-        models[modelKey].reasoning = reasoning;
+        (models[modelKey] as any).reasoning = reasoning;
       }
     }
   }
