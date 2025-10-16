@@ -1,5 +1,6 @@
 "use client";
 
+import { AdditionalModeSummary } from "@/components/additional-mode-summary";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -15,8 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AllModelsReturn } from '@/lib/models';
-import { getCalculatorUrl } from "@/utils/providerUtils";
+import type { AdditionalPricingRow } from "@/lib/additional-models";
+import { AllModelsReturn } from "@/lib/models";
+import { getCalculatorUrl, getProviderDetailUrl } from "@/utils/providerUtils";
 import {
   DollarSign,
   FileText,
@@ -24,6 +26,7 @@ import {
   LayoutTemplate,
   MessageSquare,
   Mic,
+  Tag,
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -32,9 +35,11 @@ import { ModelCard } from "./ModelCard";
 export const ModelList = ({
   allModels,
   providers,
+  additionalCatalog,
 }: {
   allModels: AllModelsReturn;
   providers: string[];
+  additionalCatalog: AdditionalPricingRow[];
 }) => {
   const [selectedProvider, setSelectedProvider] = useState("All");
 
@@ -57,6 +62,16 @@ export const ModelList = ({
       ),
     };
   }, [selectedProvider, allModels]);
+
+  const filteredAdditionalCatalog = useMemo(() => {
+    if (selectedProvider === "All") {
+      return additionalCatalog;
+    }
+    return additionalCatalog.filter(
+      (entry) => entry.provider === selectedProvider
+    );
+  }, [selectedProvider, additionalCatalog]);
+
   return (
     <>
       <div className="w-64 self-end ml-auto">
@@ -123,6 +138,12 @@ export const ModelList = ({
                           {model.provider}
                         </Badge>
                       </Link>
+                      <Link
+                        href={getProviderDetailUrl(model.provider)}
+                        className="text-xs underline text-muted-foreground"
+                      >
+                        Provider details
+                      </Link>
                     </div>
                     <CardDescription>{model.category}</CardDescription>
                   </CardHeader>
@@ -165,6 +186,12 @@ export const ModelList = ({
                         >
                           {model.provider}
                         </Badge>
+                      </Link>
+                      <Link
+                        href={getProviderDetailUrl(model.provider)}
+                        className="text-xs underline text-muted-foreground"
+                      >
+                        Provider details
                       </Link>
                     </div>
                     <CardDescription>{model.category}</CardDescription>
@@ -217,6 +244,12 @@ export const ModelList = ({
                           {model.provider}
                         </Badge>
                       </Link>
+                      <Link
+                        href={getProviderDetailUrl(model.provider)}
+                        className="text-xs underline text-muted-foreground"
+                      >
+                        Provider details
+                      </Link>
                     </div>
                     <CardDescription>{model.category}</CardDescription>
                   </CardHeader>
@@ -234,9 +267,87 @@ export const ModelList = ({
           </section>
         )}
 
-        {Object.values(filteredModels).every(
-          (models) => models.length === 0
-        ) && (
+        {filteredAdditionalCatalog.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <Tag className="h-6 w-6" />
+              Marketplace & Subscription Offerings
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredAdditionalCatalog.map((entry) => (
+                <Card
+                  key={`${entry.providerKey}-${entry.modelId}`}
+                  className="flex flex-col h-full"
+                >
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <CardTitle className="text-lg">{entry.name}</CardTitle>
+                        <CardDescription>{entry.category}</CardDescription>
+                      </div>
+                      <Link href={getProviderDetailUrl(entry.provider)}>
+                        <Badge
+                          variant="secondary"
+                          className="cursor-pointer hover:bg-secondary/80"
+                        >
+                          {entry.provider}
+                        </Badge>
+                      </Link>
+                    </div>
+                    {entry.vendor ? (
+                      <p className="text-xs text-muted-foreground">
+                        Vendor: {entry.vendor}
+                      </p>
+                    ) : null}
+                    {entry.region ? (
+                      <p className="text-xs text-muted-foreground">
+                        Region: {entry.region}
+                      </p>
+                    ) : null}
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      {entry.modes.map((mode, index) => (
+                        <AdditionalModeSummary
+                          key={`${entry.modelId}-mode-${index}`}
+                          mode={mode}
+                        />
+                      ))}
+                    </div>
+                    {entry.notes ? (
+                      <p className="text-xs text-muted-foreground">{entry.notes}</p>
+                    ) : null}
+                    {entry.catalogUrl ? (
+                      <a
+                        href={entry.catalogUrl}
+                        className="text-xs underline"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        View provider catalog
+                      </a>
+                    ) : null}
+                    {entry.tags?.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {entry.tags.map((tag) => (
+                          <Badge
+                            key={`${entry.modelId}-${tag}`}
+                            variant="outline"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    ) : null}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {Object.values(filteredModels).every((models) => models.length === 0) &&
+          filteredAdditionalCatalog.length === 0 && (
           <p className="text-center text-muted-foreground">
             No models found for the selected provider.
           </p>

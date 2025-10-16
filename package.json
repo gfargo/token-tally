@@ -10,7 +10,7 @@
     "lint": "next lint",
     "pricing:update": "tsx scripts/update-pricing.ts",
     "pricing:update:dry": "tsx scripts/update-pricing.ts --dry-run --no-history",
-    "pricing:test": "tsx scripts/tests/openai-parser.test.ts && tsx scripts/tests/anthropic-parser.test.ts && tsx scripts/tests/gemini-parser.test.ts && tsx scripts/tests/cohere-parser.test.ts && tsx scripts/tests/perplexity-parser.test.ts",
+    "pricing:test": "tsx scripts/tests/openai-parser.test.ts && tsx scripts/tests/anthropic-parser.test.ts && tsx scripts/tests/gemini-parser.test.ts && tsx scripts/tests/cohere-parser.test.ts && tsx scripts/tests/perplexity-parser.test.ts && tsx scripts/tests/additional-providers.test.ts",
     "pricing:test:openai": "tsx scripts/tests/openai-parser.test.ts",
     "pricing:test:anthropic": "tsx scripts/tests/anthropic-parser.test.ts",
     "pricing:test:gemini": "tsx scripts/tests/gemini-parser.test.ts",

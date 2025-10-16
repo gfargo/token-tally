@@ -5,6 +5,7 @@ import GlobalPricingTable from "@/components/global-pricing-table";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import {
+  BarChart3,
   Calculator,
   Command,
   Download,
@@ -47,7 +48,8 @@ export default function Home() {
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Access detailed model information and download complete datasets.
+            Access detailed model information, compare providers side-by-side,
+            and download complete datasets.
             <Link
               href="/models"
               className="underline ml-1"
@@ -62,6 +64,13 @@ export default function Home() {
               download button
             </Link>
             <Download className="w-4 h-4 inline-block ml-1" /> in the header.
+            <Link
+              href="/models/compare"
+              className="underline ml-1"
+            >
+              Compare providers
+            </Link>
+            to see token efficiency and curated plans at a glance.
           </p>
         </div>
         <motion.div
@@ -118,6 +127,12 @@ export default function Home() {
             description="Calculate costs for Perplexity's search and reasoning models."
             icon={<Search className="h-5 w-5" />}
             href="/calculators/perplexity"
+          />
+          <CalculatorCard
+            title="Compare Providers"
+            description="Explore side-by-side pricing, token efficiency, and curated marketplace plans."
+            icon={<BarChart3 className="h-5 w-5" />}
+            href="/models/compare"
           />
           <CalculatorCard
             title="Always Up-to-Date"

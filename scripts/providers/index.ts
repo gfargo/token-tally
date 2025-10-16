@@ -7,3 +7,4 @@ export { fetchAudio } from "./audio";
 export { fetchCohere } from "./cohere";
 export { fetchPerplexity } from "./perplexity";
 export { fetchImagen } from "./imagen";
+export { fetchAdditionalProviders } from "./additional";

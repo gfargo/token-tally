@@ -15,6 +15,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { getAllModels } from "@/lib/models";
 import { getCalculatorUrl } from "@/utils/providerUtils";
 import {
+  BarChart3,
   Calculator,
   CommandIcon,
   DollarSign,
@@ -199,6 +200,12 @@ export function CommandMenu() {
             >
               <List className="mr-2 h-4 w-4" />
               All Models
+            </CommandItem>
+            <CommandItem
+              onSelect={() => runCommand(() => router.push("/models/compare"))}
+            >
+              <BarChart3 className="mr-2 h-4 w-4" />
+              Compare Providers
             </CommandItem>
             <CommandItem
               onSelect={() => runCommand(() => router.push("/feedback"))}

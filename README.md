@@ -17,6 +17,8 @@
 - **Dark Mode Support:** Toggle between light and dark themes for a comfortable user experience.
 - **Dynamic OG Images:** Automatically generated Open Graph images enhance social media sharing.
 - **Toast Notifications:** User-friendly notifications via Sonner for improved interactivity.
+- **Extended Provider Catalog:** Compare curated pricing for providers like Mistral, Groq, Midjourney, and OpenRouter across tokens, subscriptions, and credit bundles.
+- **Provider Comparison Dashboard:** Contrast providers side-by-side with token stats, context windows, curated marketplace plans, and quick pairing presets.
 
 ## Project Structure Overview
 
