@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BaseTextModel } from "@/lib/models";
-import { getCalculatorUrl } from "@/utils/providerUtils";
+import { getCalculatorUrl, getProviderDetailUrl } from "@/utils/providerUtils";
 import {
   Cpu,
   DollarSign,
@@ -105,6 +105,12 @@ export const ModelCard = ({ model }: { model: BaseTextModel }) => (
             </ul>
           </div>
         )}
+        <Link
+          href={getProviderDetailUrl(model.provider)}
+          className="text-xs underline text-muted-foreground"
+        >
+          Provider details
+        </Link>
       </div>
     </CardContent>
   </Card>

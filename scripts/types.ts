@@ -8,4 +8,8 @@ export type {
   GeminiPricingType,
   PerplexityPricingRecord,
   ImagenPricingRecord,
+  AdditionalProviderPayloads,
+  AdditionalProviderEntry,
+  AdditionalProviderModel,
+  AdditionalPricingMode,
 } from "../types/pricing";

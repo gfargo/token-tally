@@ -5,6 +5,7 @@ import path from "path";
 import {
   fetchAnthropic,
   fetchAudio,
+  fetchAdditionalProviders,
   fetchCohere,
   fetchDalle,
   fetchEmbedding,
@@ -13,7 +14,10 @@ import {
   fetchOpenAI,
   fetchPerplexity,
 } from "./providers";
-import type { ProviderPayloads } from "./types";
+import type {
+  AdditionalProviderPayloads,
+  ProviderPayloads,
+} from "./types";
 
 type ScriptOptions = {
   dryRun: boolean;
@@ -37,6 +41,7 @@ const PRICING_FILE = path.join(OUTPUT_DIR, "pricing.json");
 type PricingPayload = {
   lastUpdated: string;
   providers: ProviderPayloads;
+  additionalProviders: AdditionalProviderPayloads;
 };
 
 const loadExistingPayload = async (): Promise<PricingPayload | null> => {
@@ -52,7 +57,10 @@ const loadExistingPayload = async (): Promise<PricingPayload | null> => {
   }
 };
 
-const collectProviders = async (): Promise<ProviderPayloads> => {
+const collectProviders = async (): Promise<{
+  providers: ProviderPayloads;
+  additionalProviders: AdditionalProviderPayloads;
+}> => {
   const [
     openai,
     anthropic,
@@ -63,6 +71,7 @@ const collectProviders = async (): Promise<ProviderPayloads> => {
     cohere,
     perplexity,
     imagen,
+    additionalProviders,
   ] = await Promise.all([
     fetchOpenAI(),
     fetchAnthropic(),
@@ -73,18 +82,22 @@ const collectProviders = async (): Promise<ProviderPayloads> => {
     fetchCohere(),
     fetchPerplexity(),
     fetchImagen(),
+    fetchAdditionalProviders(),
   ]);
 
   return {
-    openai,
-    anthropic,
-    gemini,
-    dalle,
-    embedding,
-    audio,
-    cohere,
-    perplexity,
-    imagen,
+    providers: {
+      openai,
+      anthropic,
+      gemini,
+      dalle,
+      embedding,
+      audio,
+      cohere,
+      perplexity,
+      imagen,
+    },
+    additionalProviders,
   };
 };
 
@@ -166,17 +179,40 @@ const logDiffSummary = (
 
   console.log("[pricing] provider change summary:");
   console.table(rows);
+  const getAdditionalKeys = (payload: PricingPayload | null) =>
+    payload ? Object.keys(payload.additionalProviders ?? {}) : [];
+
+  const prevAdditional = getAdditionalKeys(previous);
+  const nextAdditional = getAdditionalKeys(nextPayload);
+
+  const addedProviders = nextAdditional.filter(
+    (provider) => !prevAdditional.includes(provider)
+  );
+  const removedProviders = prevAdditional.filter(
+    (provider) => !nextAdditional.includes(provider)
+  );
+
+  if (addedProviders.length || removedProviders.length) {
+    console.log("[pricing] additional provider catalog changes detected:");
+    if (addedProviders.length) {
+      console.log("  added:", addedProviders.join(", "));
+    }
+    if (removedProviders.length) {
+      console.log("  removed:", removedProviders.join(", "));
+    }
+  }
 };
 
 const main = async () => {
   const options = parseArgs();
   const now = new Date();
   const existingPayload = await loadExistingPayload();
-  const providers = await collectProviders();
+  const { providers, additionalProviders } = await collectProviders();
 
   const payload = {
     lastUpdated: formatDate(now),
     providers,
+    additionalProviders,
   };
 
   if (options.dryRun) {

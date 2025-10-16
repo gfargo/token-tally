@@ -8,7 +8,7 @@ import type React from "react";
 import { Toaster } from "sonner";
 
 import "./globals.css";
-import { CalculatorIcon } from 'lucide-react';
+import { CalculatorIcon } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,14 +32,14 @@ export default function RootLayout({
     >
       <body className={inter.className}>
         <div className="flex flex-col min-h-screen">
-          <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
             <div className="container flex h-14 max-w-screen-2xl items-center mx-auto">
               <div className="mr-4 hidden md:flex">
                 <Link
                   href="/"
                   className="mr-6 flex items-center space-x-2 text-primary/40 hover:text-primary transition-colors duration-150"
                 >
-                  <CalculatorIcon className='h-6 w-6' />
+                  <CalculatorIcon className="h-6 w-6" />
                   <span className="hidden font-bold sm:inline-block">
                     TokenTally
                   </span>
@@ -54,6 +54,12 @@ export default function RootLayout({
                   >
                     All Models
                   </Link>
+                  <Link
+                    href="/models/compare"
+                    className="text-sm font-medium transition-colors hover:text-primary"
+                  >
+                    Compare
+                  </Link>
                 </nav>
                 <div className="w-full flex-1 md:w-auto md:flex-none">
                   <CommandMenu />
@@ -63,7 +69,7 @@ export default function RootLayout({
             </div>
           </header>
           <main className="flex-grow">{children}</main>
-          <footer className="border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <footer className="border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
             <div className="container flex h-14 max-w-screen-2xl items-center justify-between mx-auto">
               <div className="flex items-center space-x-4">
                 <Link
@@ -77,6 +83,12 @@ export default function RootLayout({
                   className="text-sm font-medium transition-colors hover:text-primary"
                 >
                   All Models
+                </Link>
+                <Link
+                  href="/models/compare"
+                  className="text-sm font-medium transition-colors hover:text-primary"
+                >
+                  Compare
                 </Link>
                 <Link
                   href="/feedback"
