@@ -7,7 +7,7 @@ import type {
   ImageModel,
 } from "@/lib/models";
 
-type NumericStat<T extends BaseTextModel | ImageModel | EmbeddingModel | AudioModel> = {
+type NumericStat = {
   model: string;
   value: number;
   unit?: string;
@@ -33,9 +33,9 @@ export type ProviderSummary = {
 
 export type ProviderStats = {
   textModelCount: number;
-  minInputCost?: NumericStat<BaseTextModel>;
-  minOutputCost?: NumericStat<BaseTextModel>;
-  maxContextWindow?: NumericStat<BaseTextModel>;
+  minInputCost?: NumericStat;
+  minOutputCost?: NumericStat;
+  maxContextWindow?: NumericStat;
   bestTokenEfficiency?: {
     model: string;
     tokensPerDollar: number;
@@ -52,13 +52,13 @@ const collectNumericStat = (
   models: BaseTextModel[],
   selector: (model: BaseTextModel) => number | undefined,
   unit?: string
-): NumericStat<BaseTextModel> | undefined => {
+): NumericStat | undefined => {
   const candidates = models
     .map((model) => {
       const value = selector(model);
       return value !== undefined ? { model: model.model, value, unit } : null;
     })
-    .filter((candidate): candidate is NumericStat<BaseTextModel> => candidate !== null);
+    .filter((candidate): candidate is NumericStat => candidate !== null);
 
   if (candidates.length === 0) {
     return undefined;
@@ -71,7 +71,7 @@ const collectNumericStat = (
 
 const collectMaxContextWindow = (
   models: BaseTextModel[]
-): NumericStat<BaseTextModel> | undefined => {
+): NumericStat | undefined => {
   const candidates = models
     .map((model) => {
       const value = toNumber(model.contextWindow);
@@ -79,7 +79,7 @@ const collectMaxContextWindow = (
         ? { model: model.model, value, unit: "tokens" }
         : null;
     })
-    .filter((candidate): candidate is NumericStat<BaseTextModel> => candidate !== null);
+    .filter((candidate): candidate is NumericStat => candidate !== null);
 
   if (candidates.length === 0) {
     return undefined;

@@ -146,7 +146,7 @@ const TokenEfficiencyChart = ({
         </CardTitle>
         <CardDescription>
           Tokens per $1 (higher bars = cheaper inference) for{" "}
-          {provider}'s top models
+          {provider}&apos;s top models
         </CardDescription>
       </CardHeader>
       <CardContent>
