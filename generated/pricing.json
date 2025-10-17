@@ -210,12 +210,6 @@
         "output": 6,
         "cachedInput": 0.375
       },
-      "gpt-5-search-api": {
-        "category": "Text tokens",
-        "provider": "OpenAI",
-        "input": 1.25,
-        "output": 10
-      },
       "gpt-4o-mini-search-preview": {
         "category": "Text tokens",
         "provider": "OpenAI",
