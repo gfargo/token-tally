@@ -56,7 +56,20 @@ const collectNumericStat = (
   const candidates = models
     .map((model) => {
       const value = selector(model);
-      return value !== undefined ? { model: model.model, value, unit } : null;
+      if (value === undefined) {
+        return null;
+      }
+
+      const candidate: NumericStat = {
+        model: model.model,
+        value,
+      };
+
+      if (unit !== undefined) {
+        candidate.unit = unit;
+      }
+
+      return candidate;
     })
     .filter((candidate): candidate is NumericStat => candidate !== null);
 
@@ -75,9 +88,18 @@ const collectMaxContextWindow = (
   const candidates = models
     .map((model) => {
       const value = toNumber(model.contextWindow);
-      return value !== undefined
-        ? { model: model.model, value, unit: "tokens" }
-        : null;
+      if (value === undefined) {
+        return null;
+      }
+
+      const candidate: NumericStat = {
+        model: model.model,
+        value,
+      };
+
+      candidate.unit = "tokens";
+
+      return candidate;
     })
     .filter((candidate): candidate is NumericStat => candidate !== null);
 

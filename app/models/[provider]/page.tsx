@@ -39,15 +39,18 @@ type ProviderParams = {
   provider: string;
 };
 
+type ProviderPageProps = {
+  params: Promise<ProviderParams>;
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: ProviderParams;
-}): Promise<Metadata> {
+}: ProviderPageProps): Promise<Metadata> {
+  const resolvedParams = await params;
   const allModels = getAllModels();
   const additionalCatalog = getAdditionalPricingCatalog();
   const providerName = listProviderNames(allModels, additionalCatalog).find(
-    (name) => getProviderSlug(name) === params.provider
+    (name) => getProviderSlug(name) === resolvedParams.provider
   );
 
   if (!providerName) {
@@ -62,11 +65,12 @@ export async function generateMetadata({
   };
 }
 
-export default function ProviderPage({ params }: { params: ProviderParams }) {
+export default async function ProviderPage({ params }: ProviderPageProps) {
+  const resolvedParams = await params;
   const allModels = getAllModels();
   const additionalCatalog = getAdditionalPricingCatalog();
   const providerName = listProviderNames(allModels, additionalCatalog).find(
-    (name) => getProviderSlug(name) === params.provider
+    (name) => getProviderSlug(name) === resolvedParams.provider
   );
 
   if (!providerName) {
